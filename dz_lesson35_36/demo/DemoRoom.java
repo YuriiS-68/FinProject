@@ -23,7 +23,7 @@ public class DemoRoom {
 
         Room room1 = new Room(1001, 3, 50.00, false, true, format.parse(date), hotel1);
         Room room2 = new Room(2002, 5, 120.00, false, true, format.parse(date2), hotel1);
-        Room room3 = new Room(3003, 2, 30.00, false, true, format.parse(date), hotel1);
+        Room room3 = new Room(3003, 2, 30.00, false, true, format.parse(date), hotel2);
         Room room4 = new Room(4004, 3, 50.00, false, true, format.parse(date3), hotel2);
 
         Room room5 = new Room(5005, 5, 120.00, false, true, format.parse(date4), hotel1);

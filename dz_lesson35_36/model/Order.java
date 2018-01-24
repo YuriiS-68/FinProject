@@ -1,9 +1,14 @@
 package dz_lesson35_36.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 public class Order extends IdEntity{
+
+    private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+
     private long id;
     private User user;
     private Room room;
@@ -93,11 +98,13 @@ public class Order extends IdEntity{
 
     @Override
     public String toString() {
+        String dateStart = FORMAT.format(dateFrom);
+        String dateEnd = FORMAT.format(dateTo);
         return id + ","
-                + user + ","
-                + room + ","
-                + dateFrom + ","
-                + dateTo + ","
+                + user.getId() + ","
+                + room.getId() + ","
+                + dateStart + ","
+                + dateEnd + ","
                 + moneyPaid;
     }
 }

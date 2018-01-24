@@ -131,15 +131,10 @@ public class OrderDAO extends GeneralDAO{
 
     private static void writerToFile(Order order)throws Exception{
         if (order == null)
-            throw new BadRequestException("Room does not exist");
+            throw new BadRequestException("Order does not exist");
 
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathOrderDB, true))){
-            bufferedWriter.append(Long.toString(order.getId()) + (","));
-            bufferedWriter.append(order.getUser().toString() + (","));
-            bufferedWriter.append(order.getRoom().toString() + (","));
-            bufferedWriter.append(GeneralDAO.getFORMAT().format(order.getDateFrom()) + (","));
-            bufferedWriter.append(GeneralDAO.getFORMAT().format(order.getDateTo()) + (","));
-            bufferedWriter.append(Double.toString(order.getMoneyPaid()) + ("\n"));
+            bufferedWriter.append(order.toString() + "\n");
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathOrderDB);
         }
@@ -154,12 +149,7 @@ public class OrderDAO extends GeneralDAO{
                 el = null;
             }else {
                 if (el != null){
-                    res.append(Long.toString(el.getId()) + (","));
-                    res.append(el.getUser().toString() + (","));
-                    res.append(el.getRoom().toString() + (","));
-                    res.append(GeneralDAO.getFORMAT().format(el.getDateFrom()) + (","));
-                    res.append(GeneralDAO.getFORMAT().format(el.getDateTo()) + (","));
-                    res.append(Double.toString(el.getMoneyPaid()) + ("\n"));
+                    res.append(el.toString() + "\n");
                 }
             }
             index++;
