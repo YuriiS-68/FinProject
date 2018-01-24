@@ -114,7 +114,7 @@ public class UserDAO extends GeneralDAO {
         return user;
     }
 
-    private static void writerToFile(User user)throws Exception{
+    /*private static void writerToFile(User user)throws Exception{
         if (user == null)
             throw new BadRequestException("User does not exist");
 
@@ -123,5 +123,5 @@ public class UserDAO extends GeneralDAO {
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathUserDB);
         }
-    }
+    }*/
 }

@@ -162,7 +162,7 @@ public class HotelDAO extends GeneralDAO {
         return res;
     }
 
-    private static void writerToFile(Hotel hotel)throws Exception{
+    /*private static void writerToFile(Hotel hotel)throws Exception{
         if (hotel == null)
             throw new BadRequestException("Hotel does not exist");
 
@@ -172,6 +172,6 @@ public class HotelDAO extends GeneralDAO {
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathHotelDB);
         }
-    }
+    }*/
 }
 

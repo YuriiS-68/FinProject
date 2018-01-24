@@ -129,7 +129,7 @@ public class OrderDAO extends GeneralDAO{
         return order;
     }
 
-    private static void writerToFile(Order order)throws Exception{
+    /*private static void writerToFile(Order order)throws Exception{
         if (order == null)
             throw new BadRequestException("Order does not exist");
 
@@ -138,7 +138,7 @@ public class OrderDAO extends GeneralDAO{
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathOrderDB);
         }
-    }
+    }*/
 
     private static StringBuffer resultForWriting(long roomId, long userId)throws Exception{
         StringBuffer res = new StringBuffer();

@@ -13,12 +13,12 @@ public class DemoHotel {
         Hotel hotel5 = new Hotel(555555, "Ukraine", "Donetsk", "Lenina", "Meteor");
         Hotel hotel6 = new Hotel(666666, "Germany", "Berlin", "Ulrih Olafson", "Western");
 
-        HotelDAO.addHotel(hotel5);
+        HotelDAO.addHotel(hotel2);
         /*HotelDAO.addHotel(hotel2);
         HotelDAO.addHotel(hotel3);
         HotelDAO.addHotel(hotel4);
         HotelDAO.addHotel(hotel5);*/
-        //HotelDAO.deleteHotel(555555L);
+        //HotelDAO.deleteHotel(222222L);
         //System.out.println(HotelDAO.findHotelByName("Meteor"));
         //System.out.println(HotelDAO.findHotelByCity("Lviv"));
     }

@@ -38,6 +38,17 @@ public abstract class GeneralDAO {
         return arrayList;
     }
 
+    public static <T> void writerToFile(T t)throws Exception{
+        if (t == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDB, true))){
+            bufferedWriter.append(t.toString() + ("\n"));
+        }catch (IOException e){
+            throw new IOException("Can not write to file " + pathDB);
+        }
+    }
+
     static void writerInFailBD(String path, StringBuffer content)throws Exception{
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))){
             bufferedWriter.append(content);

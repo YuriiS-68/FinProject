@@ -9,9 +9,9 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    private static HotelDAO hotelDAO = new HotelDAO();
-
     private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+
+    private static HotelDAO hotelDAO = new HotelDAO();
 
     public static Room addRoom(Room room)throws Exception{
         if (room == null)
@@ -153,7 +153,7 @@ public class RoomDAO extends GeneralDAO{
         return true;
     }
 
-    private static void writerToFile(Room room)throws Exception{
+    /*private static void writerToFile(Room room)throws Exception{
         if (room == null)
             throw new BadRequestException("Room does not exist");
 
@@ -163,7 +163,7 @@ public class RoomDAO extends GeneralDAO{
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathRoomDB);
         }
-    }
+    }*/
 
     private static StringBuffer resultForWriting(Long idRoom)throws Exception{
         StringBuffer res = new StringBuffer();
