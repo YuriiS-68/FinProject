@@ -105,10 +105,10 @@ public class OrderDAO extends GeneralDAO{
         Order order = new Order();
         order.setId(Long.parseLong(fields[0]));
         order.setUser(userDAO.findUserById(Long.parseLong(fields[1])));
-        order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[6])));
-        order.setDateFrom(GeneralDAO.getFORMAT().parse(fields[17]));
-        order.setDateTo(GeneralDAO.getFORMAT().parse(fields[18]));
-        order.setMoneyPaid(Double.parseDouble(fields[19]));
+        order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[2])));
+        order.setDateFrom(GeneralDAO.getFORMAT().parse(fields[3]));
+        order.setDateTo(GeneralDAO.getFORMAT().parse(fields[4]));
+        order.setMoneyPaid(Double.parseDouble(fields[5]));
 
         return order;
     }
