@@ -11,7 +11,6 @@ public class Room extends IdEntity{
 
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-    private long id;
     private int numberOfGuests;
     private double price;
     private boolean breakfastIncluded;

@@ -11,15 +11,18 @@ import java.util.Random;
 
 public abstract class GeneralDAO {
 
-    private static String pathDB = "";
 
+    private static String pathUserDB = "C:\\Users\\Skorodielov\\Desktop\\UserDB.txt";
+    private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
+    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+    private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-    static ArrayList<String> readFromFile()throws Exception{
+    static ArrayList<String> readFromFile(String path)throws Exception{
         ArrayList<String> arrayList = new ArrayList<>();
 
 
-        try (BufferedReader br = new BufferedReader(new FileReader(pathDB))){
+        try (BufferedReader br = new BufferedReader(new FileReader(path))){
             String line;
 
             while ((line = br.readLine()) != null){
@@ -33,19 +36,19 @@ public abstract class GeneralDAO {
         }catch (FileNotFoundException e){
             throw new FileNotFoundException("File does not exist");
         } catch (IOException e) {
-            throw new IOException("Reading from file " + pathDB + " failed");
+            throw new IOException("Reading from file " + path + " failed");
         }
         return arrayList;
     }
 
-    public static <T> void writerToFile(T t)throws Exception{
+    public static <T> void writerToFile(T t, String path)throws Exception{
         if (t == null)
             throw new BadRequestException("Invalid incoming data");
 
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDB, true))){
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))){
             bufferedWriter.append(t.toString() + ("\n"));
         }catch (IOException e){
-            throw new IOException("Can not write to file " + pathDB);
+            throw new IOException("Can not write to file " + path);
         }
     }
 
@@ -56,18 +59,6 @@ public abstract class GeneralDAO {
             throw new IOException("Can not write to file " + path);
         }
     }
-
-    /*<T extends IdEntity> findObjectById(T t)throws Exception{
-        if (id == null)
-            throw new BadRequestException("This does  " + id + " not exist ");
-
-        for (T el : gettingListObjects()){
-            if (user != null && user.getId() == id){
-                return t;
-            }
-        }
-        throw new BadRequestException("User with " + id + " no such found.");
-    }*/
 
     static <T extends IdEntity> void assignmentObjectId(T t)throws Exception{
         if (t == null)
@@ -80,11 +71,24 @@ public abstract class GeneralDAO {
         }
     }
 
-    public static void setPathDB(String pathDB) {
-        GeneralDAO.pathDB = pathDB;
+    public static String getPathUserDB() {
+        return pathUserDB;
+    }
+
+    public static String getPathHotelDB() {
+        return pathHotelDB;
+    }
+
+    public static String getPathRoomDB() {
+        return pathRoomDB;
+    }
+
+    public static String getPathOrderDB() {
+        return pathOrderDB;
     }
 
     public static DateFormat getFORMAT() {
         return FORMAT;
     }
+
 }

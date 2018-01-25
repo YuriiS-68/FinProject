@@ -9,7 +9,6 @@ public class Order extends IdEntity{
 
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
-    private long id;
     private User user;
     private Room room;
     private Date dateFrom;

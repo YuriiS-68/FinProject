@@ -9,8 +9,6 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
-
     private static HotelDAO hotelDAO = new HotelDAO();
 
     public static Room addRoom(Room room)throws Exception{
@@ -20,7 +18,7 @@ public class RoomDAO extends GeneralDAO{
         if (!checkRoomById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
 
-        writerToFile(room);
+        writerToFile(room, GeneralDAO.getPathRoomDB());
 
         return room;
     }
@@ -32,7 +30,7 @@ public class RoomDAO extends GeneralDAO{
         if (checkRoomById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
-        writerInFailBD(pathRoomDB, resultForWriting(idRoom));
+        writerInFailBD(GeneralDAO.getPathRoomDB(), resultForWriting(idRoom));
     }
 
     public static Collection findRooms(Filter filter)throws Exception{
@@ -101,12 +99,10 @@ public class RoomDAO extends GeneralDAO{
     private static LinkedList<Room> getRooms()throws Exception{
         LinkedList<Room> arrays = new LinkedList<>();
 
-        setPathDB(pathRoomDB);
-
         int index = 0;
-        for (String el : readFromFile()){
+        for (String el : readFromFile(GeneralDAO.getPathRoomDB())){
             if (el != null){
-                arrays.add(mapRooms(readFromFile().get(index)));
+                arrays.add(mapRooms(readFromFile(GeneralDAO.getPathRoomDB()).get(index)));
             }
             index++;
         }
@@ -117,26 +113,16 @@ public class RoomDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
-        System.out.println("Input stroka - " + string);
-
         String[] fields = string.split(",");
 
         Room room = new Room();
         room.setId(Long.parseLong(fields[0]));
-        System.out.println("Id room - " + room.getId());
         room.setNumberOfGuests(Integer.parseInt(fields[1]));
         room.setPrice(Double.parseDouble(fields[2]));
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
-        String idHotel = "";
-        for (Character ch : fields[6].toCharArray()) {
-            if (ch != null && Character.isDigit(ch)) {
-                idHotel += ch;
-            }
-        }
-        room.setHotel(hotelDAO.findHotelById(Long.parseLong(idHotel)));
-        System.out.println("Info about to hotel - " + room.getHotel().toString());
+        room.setHotel(hotelDAO.findHotelById(Long.parseLong(fields[6])));
 
         return room;
     }
@@ -152,18 +138,6 @@ public class RoomDAO extends GeneralDAO{
         }
         return true;
     }
-
-    /*private static void writerToFile(Room room)throws Exception{
-        if (room == null)
-            throw new BadRequestException("Room does not exist");
-
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathRoomDB, true))){
-            System.out.println("Zapis v fail - " + room.toString());
-            bufferedWriter.append(room.toString() + "\n");
-        }catch (IOException e){
-            throw new IOException("Can not write to file " + pathRoomDB);
-        }
-    }*/
 
     private static StringBuffer resultForWriting(Long idRoom)throws Exception{
         StringBuffer res = new StringBuffer();

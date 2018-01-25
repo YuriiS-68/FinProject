@@ -12,8 +12,6 @@ public class OrderDAO extends GeneralDAO{
     private static HotelDAO hotelDAO = new HotelDAO();
     private static RoomDAO roomDAO = new RoomDAO();
 
-    private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
-
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
         //проверить есть ли в файлах БД такие данные
         //если есть создать ордер и просетить ему данные по всем полям
@@ -30,7 +28,7 @@ public class OrderDAO extends GeneralDAO{
         if (!hotelDAO.checkIdHotel(hotelId))
             throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
-        writerToFile(createOrder(roomId, userId));
+        writerToFile(createOrder(roomId, userId), GeneralDAO.getPathOrderDB());
     }
 
     public static void cancelReservation(long roomId, long userId)throws Exception{
@@ -43,7 +41,7 @@ public class OrderDAO extends GeneralDAO{
         if (!checkId(roomId, userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        writerInFailBD(pathOrderDB, resultForWriting(roomId, userId));
+        writerInFailBD(GeneralDAO.getPathOrderDB(), resultForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
@@ -88,12 +86,10 @@ public class OrderDAO extends GeneralDAO{
     private static LinkedList<Order> getOrders()throws Exception{
         LinkedList<Order> arrays = new LinkedList<>();
 
-        setPathDB(pathOrderDB);
-
         int index = 0;
-        for (String el : readFromFile()){
+        for (String el : readFromFile(GeneralDAO.getPathOrderDB())){
             if (el != null){
-                arrays.add(mapOrders(readFromFile().get(index)));
+                arrays.add(mapOrders(readFromFile(GeneralDAO.getPathOrderDB()).get(index)));
             }
             index++;
         }
@@ -108,37 +104,14 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
         order.setId(Long.parseLong(fields[0]));
-        String idUser = "";
-        for (Character ch : fields[1].toCharArray()) {
-            if (ch != null && Character.isDigit(ch)) {
-                idUser += ch;
-            }
-        }
-        order.setUser(userDAO.findUserById(Long.parseLong(idUser)));
-        String idRoom = "";
-        for (Character ch : fields[6].toCharArray()) {
-            if (ch != null && Character.isDigit(ch)) {
-                idRoom += ch;
-            }
-        }
-        order.setRoom(roomDAO.findRoomById(Long.parseLong(idRoom)));
+        order.setUser(userDAO.findUserById(Long.parseLong(fields[1])));
+        order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[6])));
         order.setDateFrom(GeneralDAO.getFORMAT().parse(fields[17]));
         order.setDateTo(GeneralDAO.getFORMAT().parse(fields[18]));
         order.setMoneyPaid(Double.parseDouble(fields[19]));
 
         return order;
     }
-
-    /*private static void writerToFile(Order order)throws Exception{
-        if (order == null)
-            throw new BadRequestException("Order does not exist");
-
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathOrderDB, true))){
-            bufferedWriter.append(order.toString() + "\n");
-        }catch (IOException e){
-            throw new IOException("Can not write to file " + pathOrderDB);
-        }
-    }*/
 
     private static StringBuffer resultForWriting(long roomId, long userId)throws Exception{
         StringBuffer res = new StringBuffer();

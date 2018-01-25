@@ -9,7 +9,6 @@ import java.util.LinkedList;
 
 public class UserDAO extends GeneralDAO {
 
-    private static String pathUserDB = "C:\\Users\\Skorodielov\\Desktop\\UserDB.txt";
     //считывание данных - считывание файла
     //обработка данных - маппинг данных
 
@@ -26,7 +25,7 @@ public class UserDAO extends GeneralDAO {
 
         assignmentObjectId(user);
 
-        writerToFile(user);
+        writerToFile(user, GeneralDAO.getPathUserDB());
 
         return user;
     }
@@ -71,12 +70,10 @@ public class UserDAO extends GeneralDAO {
     private static LinkedList<User> getUsers()throws Exception{
         LinkedList<User> arrays = new LinkedList<>();
 
-        setPathDB(pathUserDB);
-
         int index = 0;
-        for (String el : readFromFile()){
+        for (String el : readFromFile(GeneralDAO.getPathUserDB())){
             if (el != null){
-                arrays.add(mapUsers(readFromFile().get(index)));
+                arrays.add(mapUsers(readFromFile(GeneralDAO.getPathUserDB()).get(index)));
             }
             index++;
         }
@@ -113,15 +110,4 @@ public class UserDAO extends GeneralDAO {
         }
         return user;
     }
-
-    /*private static void writerToFile(User user)throws Exception{
-        if (user == null)
-            throw new BadRequestException("User does not exist");
-
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathUserDB, true))){
-            bufferedWriter.append(user.toString() + ("\n"));
-        }catch (IOException e){
-            throw new IOException("Can not write to file " + pathUserDB);
-        }
-    }*/
 }

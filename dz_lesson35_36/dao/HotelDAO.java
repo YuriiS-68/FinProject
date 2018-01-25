@@ -9,8 +9,6 @@ import java.util.LinkedList;
 
 public class HotelDAO extends GeneralDAO {
 
-    private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
-
     public static Hotel addHotel(Hotel hotel)throws Exception{
         //проверить по id есть ли такой отель в файле
         //если нет, добавить в файл
@@ -20,7 +18,7 @@ public class HotelDAO extends GeneralDAO {
         if (!checkHotelById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");
 
-        writerToFile(hotel);
+        writerToFile(hotel, GeneralDAO.getPathHotelDB());
 
         return hotel;
     }
@@ -36,7 +34,7 @@ public class HotelDAO extends GeneralDAO {
         if (checkHotelById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
-        writerInFailBD(pathHotelDB, contentForWriting(idHotel));
+        writerInFailBD(GeneralDAO.getPathHotelDB(), contentForWriting(idHotel));
     }
 
     public static LinkedList<Hotel> findHotelByName(String name)throws Exception{
@@ -110,12 +108,10 @@ public class HotelDAO extends GeneralDAO {
     private static LinkedList<Hotel> getHotels()throws Exception{
         LinkedList<Hotel> arrays = new LinkedList<>();
 
-        setPathDB(pathHotelDB);
-
         int index = 0;
-        for (String el : readFromFile()){
+        for (String el : readFromFile(GeneralDAO.getPathHotelDB())){
             if (el != null){
-                arrays.add(mapHotels(readFromFile().get(index)));
+                arrays.add(mapHotels(readFromFile(GeneralDAO.getPathHotelDB()).get(index)));
             }
             index++;
         }
@@ -161,17 +157,5 @@ public class HotelDAO extends GeneralDAO {
         }
         return res;
     }
-
-    /*private static void writerToFile(Hotel hotel)throws Exception{
-        if (hotel == null)
-            throw new BadRequestException("Hotel does not exist");
-
-        //setPathDB(pathHotelDB);
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathHotelDB, true))){
-            bufferedWriter.append(hotel.toString() + "\n");
-        }catch (IOException e){
-            throw new IOException("Can not write to file " + pathHotelDB);
-        }
-    }*/
 }
 

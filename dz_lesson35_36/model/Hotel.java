@@ -3,7 +3,7 @@ package dz_lesson35_36.model;
 import java.util.Objects;
 
 public class Hotel extends IdEntity{
-    private long id;
+
     private String country;
     private String city;
     private String street;

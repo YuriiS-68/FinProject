@@ -1,14 +1,13 @@
 package dz_lesson35_36.model;
 
 public class User extends IdEntity{
-    private Long id;
+
     private String userName;
     private String password;
     private String country;
     private UserType userType;
 
     public User(){
-
     }
 
     public User(String userName, String password, String country, UserType userType) {
