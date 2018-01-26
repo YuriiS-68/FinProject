@@ -9,7 +9,12 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    private static HotelDAO hotelDAO = new HotelDAO();
+    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+    private static HotelDAO hotelDAO = new HotelDAO("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");
+
+    public RoomDAO(String pathRoomDB) {
+        this.pathRoomDB = pathRoomDB;
+    }
 
     public static Room addRoom(Room room)throws Exception{
         if (room == null)
@@ -18,7 +23,7 @@ public class RoomDAO extends GeneralDAO{
         if (!checkRoomById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
 
-        writerToFile(room, GeneralDAO.getPathRoomDB());
+        writerToFile(room);
 
         return room;
     }
@@ -30,7 +35,7 @@ public class RoomDAO extends GeneralDAO{
         if (checkRoomById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
-        writerInFailBD(GeneralDAO.getPathRoomDB(), resultForWriting(idRoom));
+        writerInFailBD(pathRoomDB, resultForWriting(idRoom));
     }
 
     public static Collection findRooms(Filter filter)throws Exception{
@@ -100,9 +105,9 @@ public class RoomDAO extends GeneralDAO{
         LinkedList<Room> arrays = new LinkedList<>();
 
         int index = 0;
-        for (String el : readFromFile(GeneralDAO.getPathRoomDB())){
+        for (String el : readFromFile()){
             if (el != null){
-                arrays.add(mapRooms(readFromFile(GeneralDAO.getPathRoomDB()).get(index)));
+                arrays.add(mapRooms(readFromFile().get(index)));
             }
             index++;
         }
@@ -113,6 +118,7 @@ public class RoomDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
+        System.out.println("Input string - " + string);
         String[] fields = string.split(",");
 
         Room room = new Room();

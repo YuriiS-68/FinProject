@@ -9,6 +9,12 @@ import java.util.LinkedList;
 
 public class HotelDAO extends GeneralDAO {
 
+    private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
+
+    public HotelDAO(String pathRoomDB) {
+        this.pathHotelDB = pathHotelDB;
+    }
+
     public static Hotel addHotel(Hotel hotel)throws Exception{
         //проверить по id есть ли такой отель в файле
         //если нет, добавить в файл
@@ -18,7 +24,7 @@ public class HotelDAO extends GeneralDAO {
         if (!checkHotelById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");
 
-        writerToFile(hotel, GeneralDAO.getPathHotelDB());
+        writerToFile(hotel);
 
         return hotel;
     }
@@ -34,7 +40,7 @@ public class HotelDAO extends GeneralDAO {
         if (checkHotelById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
-        writerInFailBD(GeneralDAO.getPathHotelDB(), contentForWriting(idHotel));
+        writerInFailBD(pathHotelDB, contentForWriting(idHotel));
     }
 
     public static LinkedList<Hotel> findHotelByName(String name)throws Exception{
@@ -109,9 +115,9 @@ public class HotelDAO extends GeneralDAO {
         LinkedList<Hotel> arrays = new LinkedList<>();
 
         int index = 0;
-        for (String el : readFromFile(GeneralDAO.getPathHotelDB())){
+        for (String el : readFromFile()){
             if (el != null){
-                arrays.add(mapHotels(readFromFile(GeneralDAO.getPathHotelDB()).get(index)));
+                arrays.add(mapHotels(readFromFile().get(index)));
             }
             index++;
         }

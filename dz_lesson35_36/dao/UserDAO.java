@@ -11,6 +11,11 @@ public class UserDAO extends GeneralDAO {
 
     //считывание данных - считывание файла
     //обработка данных - маппинг данных
+    private static String pathUserDB = "C:\\Users\\Skorodielov\\Desktop\\UserDB.txt";
+
+    public UserDAO() {
+        setPathDB(pathUserDB);
+    }
 
     public static User registerUser(User user)throws Exception{
         //проверить на уникальность имя пользователя
@@ -25,7 +30,7 @@ public class UserDAO extends GeneralDAO {
 
         assignmentObjectId(user);
 
-        writerToFile(user, GeneralDAO.getPathUserDB());
+        writerToFile(user);
 
         return user;
     }
@@ -71,9 +76,9 @@ public class UserDAO extends GeneralDAO {
         LinkedList<User> arrays = new LinkedList<>();
 
         int index = 0;
-        for (String el : readFromFile(GeneralDAO.getPathUserDB())){
+        for (String el : readFromFile()){
             if (el != null){
-                arrays.add(mapUsers(readFromFile(GeneralDAO.getPathUserDB()).get(index)));
+                arrays.add(mapUsers(readFromFile().get(index)));
             }
             index++;
         }

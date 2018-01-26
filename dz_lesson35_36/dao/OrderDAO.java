@@ -8,9 +8,14 @@ import java.util.*;
 
 public class OrderDAO extends GeneralDAO{
 
+    private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
     private static UserDAO userDAO = new UserDAO();
-    private static HotelDAO hotelDAO = new HotelDAO();
-    private static RoomDAO roomDAO = new RoomDAO();
+    private static HotelDAO hotelDAO = new HotelDAO("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");
+    private static RoomDAO roomDAO = new RoomDAO("C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt");
+
+    public OrderDAO(String pathDB) {
+
+    }
 
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
         //проверить есть ли в файлах БД такие данные
@@ -28,7 +33,7 @@ public class OrderDAO extends GeneralDAO{
         if (!hotelDAO.checkIdHotel(hotelId))
             throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
-        writerToFile(createOrder(roomId, userId), GeneralDAO.getPathOrderDB());
+        writerToFile(createOrder(roomId, userId));
     }
 
     public static void cancelReservation(long roomId, long userId)throws Exception{
@@ -41,7 +46,7 @@ public class OrderDAO extends GeneralDAO{
         if (!checkId(roomId, userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        writerInFailBD(GeneralDAO.getPathOrderDB(), resultForWriting(roomId, userId));
+        writerInFailBD(pathOrderDB, resultForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
@@ -87,9 +92,9 @@ public class OrderDAO extends GeneralDAO{
         LinkedList<Order> arrays = new LinkedList<>();
 
         int index = 0;
-        for (String el : readFromFile(GeneralDAO.getPathOrderDB())){
+        for (String el : readFromFile()){
             if (el != null){
-                arrays.add(mapOrders(readFromFile(GeneralDAO.getPathOrderDB()).get(index)));
+                arrays.add(mapOrders(readFromFile().get(index)));
             }
             index++;
         }

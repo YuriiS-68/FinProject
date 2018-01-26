@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class HotelService {
 
-    private static HotelDAO hotelDAO = new HotelDAO();
+    private static HotelDAO hotelDAO = new HotelDAO("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");
 
     public static Hotel addHotel(Hotel hotel)throws Exception{
         if (hotel == null)
