@@ -17,7 +17,7 @@ public class User extends IdEntity{
         this.userType = userType;
     }
 
-    public User(Long id, String userName, String password, String country, UserType userType) {
+    public User(long id, String userName, String password, String country, UserType userType) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -25,6 +25,7 @@ public class User extends IdEntity{
         this.userType = userType;
     }
 
+    @Override
     public long getId() {
         return id;
     }

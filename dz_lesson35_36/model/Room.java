@@ -1,7 +1,5 @@
 package dz_lesson35_36.model;
 
-import dz_lesson35_36.model.Hotel;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

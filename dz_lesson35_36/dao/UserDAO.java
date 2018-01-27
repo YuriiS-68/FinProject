@@ -48,8 +48,8 @@ public class UserDAO extends GeneralDAO {
         }
     }*/
 
-    public static User findUserById(Long id)throws Exception{
-        if (id == null)
+    public static User findUserById(long id)throws Exception{
+        if (id == 0)
             throw new BadRequestException("This does  " + id + " not exist ");
 
         for (User user : getUsers()){
@@ -60,7 +60,7 @@ public class UserDAO extends GeneralDAO {
         throw new BadRequestException("User with " + id + " no such found.");
     }
 
-    public static boolean checkIdUser(Long id)throws Exception{
+    public static boolean checkIdUser(long id)throws Exception{
         if (id == 0 )
             throw new BadRequestException("Invalid incoming data");
 

@@ -7,6 +7,8 @@ import dz_lesson35_36.model.UserType;
 public class DemoUser {
     public static void main(String[] args)throws Exception {
 
+        UserDAO userDAO = new UserDAO();
+
         User user1 = new User("Nik", "1111", "Ukraine", UserType.USER);
         User user2 = new User("Andre", "2222", "Ukraine", UserType.ADMIN);
         User user3 = new User("Bob", "3333", "Ukraine", UserType.USER);
@@ -16,7 +18,7 @@ public class DemoUser {
         User user7 = new User("Alex", "7777", "USA", UserType.ADMIN);
         User user8 = new User("Oleg", "8888", "Russia", UserType.USER);
 
-        UserDAO.registerUser(user4);
+        userDAO.registerUser(user4);
         /*UserDAO.registerUser(user2);
         UserDAO.registerUser(user3);
         UserDAO.registerUser(user4);

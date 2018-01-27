@@ -2,6 +2,7 @@ package dz_lesson35_36.dao;
 
 import dz_lesson35_36.exception.BadRequestException;
 import dz_lesson35_36.model.Filter;
+import dz_lesson35_36.model.Hotel;
 import dz_lesson35_36.model.Room;
 
 import java.io.*;
@@ -10,10 +11,10 @@ import java.util.*;
 public class RoomDAO extends GeneralDAO{
 
     private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
-    private static HotelDAO hotelDAO = new HotelDAO("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");
+    private static HotelDAO hotelDAO = new HotelDAO();
 
-    public RoomDAO(String pathRoomDB) {
-        this.pathRoomDB = pathRoomDB;
+    public RoomDAO() {
+        setPathDB(pathRoomDB);
     }
 
     public static Room addRoom(Room room)throws Exception{
@@ -89,7 +90,7 @@ public class RoomDAO extends GeneralDAO{
         throw new BadRequestException("Room with " + id + " no such found.");
     }
 
-    public static boolean checkIdRoom(Long id)throws Exception{
+    public static boolean checkIdRoom(long id)throws Exception{
         if (id == 0 )
             throw new BadRequestException("Invalid incoming data");
 
@@ -118,7 +119,6 @@ public class RoomDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
-        System.out.println("Input string - " + string);
         String[] fields = string.split(",");
 
         Room room = new Room();
@@ -128,7 +128,7 @@ public class RoomDAO extends GeneralDAO{
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
-        room.setHotel(hotelDAO.findHotelById(Long.parseLong(fields[6])));
+        room.setHotel(hotelDAO.findHotelById(Long.parseLong(fields[0])));
 
         return room;
     }
@@ -150,6 +150,7 @@ public class RoomDAO extends GeneralDAO{
 
         for (Room el : getRooms()){
             if (el != null && el.getId() != idRoom){
+                System.out.println(el.toString());
                 res.append(el.toString() + ("\n"));
             }
         }

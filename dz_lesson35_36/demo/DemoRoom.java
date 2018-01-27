@@ -12,6 +12,8 @@ import java.util.Date;
 public class DemoRoom {
     public static void main(String[] args)throws Exception {
 
+        RoomDAO roomDAO = new RoomDAO();
+
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         String date = "23.12.2017";
         String date2 = "20.12.2017";
@@ -32,7 +34,7 @@ public class DemoRoom {
                                                                                                      //format.parse(date)
         Filter filter = new Filter(0, 0, false, true, format.parse(date3), "Ukraine", "Harkiv");
 
-        RoomDAO.addRoom(room3);
+        roomDAO.addRoom(room2);
         /*RoomDAO.addRoom(room2);
         RoomDAO.addRoom(room3);
         RoomDAO.addRoom(room4);
@@ -42,7 +44,7 @@ public class DemoRoom {
         //RoomDAO.addRoom(room6);
         //RoomDAO.addRoom(room7);
 
-        //RoomDAO.deleteRoom(4004L);
+        //roomDAO.deleteRoom(3003L);
 
         //System.out.println("RoomsFinish - " + RoomDAO.findRooms(filter));
 

@@ -11,6 +11,8 @@ import java.util.Date;
 public class DemoOrder {
     public static void main(String[] args) throws Exception{
 
+        OrderDAO orderDAO = new OrderDAO();
+
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         String date = "23.12.2017";
         String date2 = "20.12.2017";
@@ -29,11 +31,11 @@ public class DemoOrder {
         Room room6 = new Room(6006, 3, 40.00, true, true, new Date(), hotel2);
         Room room7 = new Room(7007, 3, 40.00, false, true, new Date(), hotel2);
 
-        //OrderDAO.bookRoom(1001, 1362824807, 111111);
+        orderDAO.bookRoom(1001, 2126570502, 111111);
         //OrderDAO.bookRoom(2002, 7312364, 111111);
         //OrderDAO.bookRoom(3003, 8392838, 222222);
         //OrderDAO.bookRoom(1001, 7364205, 111111);
 
-        OrderDAO.cancelReservation(1001, 171705076L);
+        //OrderDAO.cancelReservation(1001, 171705076L);
     }
 }

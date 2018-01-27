@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class RoomService {
 
-    private static RoomDAO roomDAO = new RoomDAO("C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt");
+    private static RoomDAO roomDAO = new RoomDAO();
 
     public static Room addRoom(Room room)throws Exception {
         if (room == null)

@@ -9,12 +9,13 @@ import java.util.*;
 public class OrderDAO extends GeneralDAO{
 
     private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
+
     private static UserDAO userDAO = new UserDAO();
-    private static HotelDAO hotelDAO = new HotelDAO("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");
-    private static RoomDAO roomDAO = new RoomDAO("C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt");
+    private static HotelDAO hotelDAO = new HotelDAO();
+    private static RoomDAO roomDAO = new RoomDAO();
 
-    public OrderDAO(String pathDB) {
-
+    public OrderDAO() {
+        setPathDB(pathOrderDB);
     }
 
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
@@ -24,13 +25,13 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0 || hotelId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if(!roomDAO.checkIdRoom(roomId))
+        if(roomDAO.checkIdRoom(roomId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        if (!userDAO.checkIdUser(userId))
+        if (userDAO.checkIdUser(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        if (!hotelDAO.checkIdHotel(hotelId))
+        if (hotelDAO.checkIdHotel(hotelId))
             throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
         writerToFile(createOrder(roomId, userId));

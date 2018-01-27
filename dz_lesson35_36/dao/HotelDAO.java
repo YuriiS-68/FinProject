@@ -11,8 +11,8 @@ public class HotelDAO extends GeneralDAO {
 
     private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
 
-    public HotelDAO(String pathRoomDB) {
-        this.pathHotelDB = pathHotelDB;
+    public HotelDAO() {
+        setPathDB(pathHotelDB);
     }
 
     public static Hotel addHotel(Hotel hotel)throws Exception{
@@ -99,7 +99,7 @@ public class HotelDAO extends GeneralDAO {
         throw new BadRequestException("Hotel with " + id + " no such found.");
     }
 
-    public static boolean checkIdHotel(Long id)throws Exception{
+    public static boolean checkIdHotel(long id)throws Exception{
         if (id == 0 )
             throw new BadRequestException("Invalid incoming data");
 
