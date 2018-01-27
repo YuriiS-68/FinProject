@@ -25,14 +25,14 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0 || hotelId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if(roomDAO.checkIdRoom(roomId))
+        /*if(roomDAO.checkIdRoom(roomId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
         if (userDAO.checkIdUser(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
         if (hotelDAO.checkIdHotel(hotelId))
-            throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
+            throw new BadRequestException("Hotel with id " + hotelId + " is not exist");*/
 
         writerToFile(createOrder(roomId, userId));
     }
@@ -53,26 +53,26 @@ public class OrderDAO extends GeneralDAO{
     private static Order createOrder(long roomId, long userId)throws Exception{
         Order order = new Order();
 
-        assignmentObjectId(order);
+        assignmentId(order);
 
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
         Date dateStart = GeneralDAO.getFORMAT().parse(dateFrom);
         Date dateFinish = GeneralDAO.getFORMAT().parse(dateTo);
 
-        order.setUser(userDAO.findUserById(userId));
-        order.setRoom(roomDAO.findRoomById(roomId));
+        //order.setUser(userDAO.findUserById(userId));
+        //order.setRoom(roomDAO.findRoomById(roomId));
         order.setDateFrom(GeneralDAO.getFORMAT().parse(dateFrom));
         order.setDateTo(GeneralDAO.getFORMAT().parse(dateTo));
 
         long difference = dateStart.getTime() - dateFinish.getTime();
         int days = (int)(difference / (24 * 60 * 60 * 1000));
-        double orderCost = roomDAO.findRoomById(roomId).getPrice() * days;
+        /*double orderCost = roomDAO.findRoomById(roomId).getPrice() * days;
         if (orderCost < 0){
             orderCost = -1 * orderCost;
         }
 
-        order.setMoneyPaid(orderCost);
+        order.setMoneyPaid(orderCost);*/
 
         return order;
     }
@@ -110,8 +110,8 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
         order.setId(Long.parseLong(fields[0]));
-        order.setUser(userDAO.findUserById(Long.parseLong(fields[1])));
-        order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[2])));
+        //order.setUser(userDAO.findUserById(Long.parseLong(fields[1])));
+        //order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[2])));
         order.setDateFrom(GeneralDAO.getFORMAT().parse(fields[3]));
         order.setDateTo(GeneralDAO.getFORMAT().parse(fields[4]));
         order.setMoneyPaid(Double.parseDouble(fields[5]));

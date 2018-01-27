@@ -78,28 +78,16 @@ public class RoomDAO extends GeneralDAO{
         return true;
     }
 
-    public static Room findRoomById(Long id)throws Exception{
-        if (id == null)
-            throw new BadRequestException("This does  " + id + " not exist ");
-
-        for (Room room : getRooms()){
-            if (room != null && room.getId() == id){
-                return room;
-            }
-        }
-        throw new BadRequestException("Room with " + id + " no such found.");
-    }
-
-    public static boolean checkIdRoom(long id)throws Exception{
+    private static boolean checkRoomById(long id)throws Exception{
         if (id == 0 )
             throw new BadRequestException("Invalid incoming data");
 
         for (Room room : getRooms()){
             if (room != null && room.getId() == id){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private static LinkedList<Room> getRooms()throws Exception{
@@ -131,18 +119,6 @@ public class RoomDAO extends GeneralDAO{
         room.setHotel(hotelDAO.findHotelById(Long.parseLong(fields[0])));
 
         return room;
-    }
-
-    private static boolean checkRoomById(Long id)throws Exception{
-        if (id == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (Room el : getRooms()){
-            if (el != null && el.getId() == id){
-                return false;
-            }
-        }
-        return true;
     }
 
     private static StringBuffer resultForWriting(Long idRoom)throws Exception{

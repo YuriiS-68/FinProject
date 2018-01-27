@@ -18,58 +18,20 @@ public class UserDAO extends GeneralDAO {
     }
 
     public static User registerUser(User user)throws Exception{
-        //проверить на уникальность имя пользователя
-        //присвоить пользователю уникальный id
-        //присвоить тип пользователя, пароль и страну
+        //проверяю есть ли такое имя сохраняемого пользователя в базе, если нет
+        //присваиваю пользователю уникальный id, тип пользователя, пароль и страну
         //save user to DB (file)
         if (user == null)
             throw new BadRequestException("Invalid incoming data");
 
-        if (checkValidLoginName(user.getUserName()))
+        if (!checkValidLoginName(user.getUserName()))
             throw new BadRequestException("User with name " + user.getUserName() + " already exists");
 
-        assignmentObjectId(user);
+        assignmentId(user);
 
         writerToFile(user);
 
         return user;
-    }
-
-    //методы входа и выхода из системы оставляем на самый конец
-    /*public static void login(String userName, String password)throws Exception {
-        if (userName == null || password == null)
-            throw new BadRequestException("Username or password is not exists");
-
-        String[] lines = readingFromFile(utils.getPathUserDB()).split(",");
-        for (String el : lines) {
-            if (el != null && el.contains(userName) && el.contains(password)) {
-
-            }
-        }
-    }*/
-
-    public static User findUserById(long id)throws Exception{
-        if (id == 0)
-            throw new BadRequestException("This does  " + id + " not exist ");
-
-        for (User user : getUsers()){
-            if (user != null && user.getId() == id){
-                return user;
-            }
-        }
-        throw new BadRequestException("User with " + id + " no such found.");
-    }
-
-    public static boolean checkIdUser(long id)throws Exception{
-        if (id == 0 )
-            throw new BadRequestException("Invalid incoming data");
-
-        for (User user : getUsers()){
-            if (user != null && user.getId() == id){
-                return true;
-            }
-        }
-        return false;
     }
 
     private static LinkedList<User> getUsers()throws Exception{
@@ -89,12 +51,12 @@ public class UserDAO extends GeneralDAO {
         if (loginName == null)
             throw new BadRequestException("Invalid incoming data");
 
-        for (User el : getUsers()) {
-            if (el != null && el.getUserName().equals(loginName)){
-                return true;
+        for (User user : getUsers()) {
+            if (user != null && user.getUserName().equals(loginName)){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private static User mapUsers(String string)throws Exception{
@@ -115,4 +77,17 @@ public class UserDAO extends GeneralDAO {
         }
         return user;
     }
+
+    //методы входа и выхода из системы оставляем на самый конец
+    /*public static void login(String userName, String password)throws Exception {
+        if (userName == null || password == null)
+            throw new BadRequestException("Username or password is not exists");
+
+        String[] lines = readingFromFile(utils.getPathUserDB()).split(",");
+        for (String el : lines) {
+            if (el != null && el.contains(userName) && el.contains(password)) {
+
+            }
+        }
+    }*/
 }

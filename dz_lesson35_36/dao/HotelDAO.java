@@ -99,16 +99,16 @@ public class HotelDAO extends GeneralDAO {
         throw new BadRequestException("Hotel with " + id + " no such found.");
     }
 
-    public static boolean checkIdHotel(long id)throws Exception{
-        if (id == 0 )
+    private static boolean checkHotelById(Long id)throws Exception{
+        if (id == null)
             throw new BadRequestException("Invalid incoming data");
 
-        for (Hotel hotel : getHotels()){
-            if (hotel != null && hotel.getId() == id){
-                return true;
+        for (Hotel el : getHotels()) {
+            if (el != null && el.getId() == id){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private static LinkedList<Hotel> getHotels()throws Exception{
@@ -140,18 +140,6 @@ public class HotelDAO extends GeneralDAO {
         return hotel;
     }
 
-    private static boolean checkHotelById(Long id)throws Exception{
-        if (id == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (Hotel el : getHotels()) {
-            if (el != null && el.getId() == id){
-                return false;
-            }
-        }
-        return true;
-    }
-
     private static StringBuffer contentForWriting(Long idHotel)throws Exception{
         StringBuffer res = new StringBuffer();
 
@@ -163,5 +151,17 @@ public class HotelDAO extends GeneralDAO {
         }
         return res;
     }
+
+    /*public static boolean checkIdHotel(long id)throws Exception{
+        if (id == 0 )
+            throw new BadRequestException("Invalid incoming data");
+
+        for (Hotel hotel : getHotels()){
+            if (hotel != null && hotel.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }*/
 }
 

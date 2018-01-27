@@ -55,7 +55,7 @@ public abstract class GeneralDAO {
         }
     }
 
-    static <T extends IdEntity> void assignmentObjectId(T t)throws Exception{
+    static <T extends IdEntity> void assignmentId(T t)throws Exception{
         if (t == null)
             throw new BadRequestException("User does not exist");
 
