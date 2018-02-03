@@ -34,7 +34,7 @@ public class UserDAO extends GeneralDAO {
         return user;
     }
 
-    private static LinkedList<User> getUsers()throws Exception{
+    public static LinkedList<User> getUsers()throws Exception{
         LinkedList<User> arrays = new LinkedList<>();
 
         int index = 0;
@@ -45,6 +45,18 @@ public class UserDAO extends GeneralDAO {
             index++;
         }
         return arrays;
+    }
+
+    public static boolean checkById(Long id)throws Exception{
+        if (id == 0)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (User user : getUsers()) {
+            if (user != null && user.getId() == id){
+                return false;
+            }
+        }
+        return true;
     }
 
     private static boolean checkValidLoginName(String loginName)throws Exception{

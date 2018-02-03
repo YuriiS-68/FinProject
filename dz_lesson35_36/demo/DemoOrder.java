@@ -31,7 +31,7 @@ public class DemoOrder {
         Room room6 = new Room(6006, 3, 40.00, true, true, new Date(), hotel2);
         Room room7 = new Room(7007, 3, 40.00, false, true, new Date(), hotel2);
 
-        orderDAO.bookRoom(1001, 2126570502, 111111);
+        orderDAO.bookRoom(1001, 600109633, 111111);
         //OrderDAO.bookRoom(2002, 7312364, 111111);
         //OrderDAO.bookRoom(3003, 8392838, 222222);
         //OrderDAO.bookRoom(1001, 7364205, 111111);

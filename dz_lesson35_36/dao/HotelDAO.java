@@ -21,7 +21,7 @@ public class HotelDAO extends GeneralDAO {
         if (hotel == null)
             throw new BadRequestException("This " + hotel + " is not exist");
 
-        if (!checkHotelById(hotel.getId()))
+        if (!checkById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");
 
         writerToFile(hotel);
@@ -37,7 +37,7 @@ public class HotelDAO extends GeneralDAO {
         if (idHotel == null)
             throw new BadRequestException("This id " + idHotel + " is not exist");
 
-        if (checkHotelById(idHotel))
+        if (checkById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
         writerInFailBD(pathHotelDB, contentForWriting(idHotel));
@@ -87,31 +87,7 @@ public class HotelDAO extends GeneralDAO {
         return hotels;
     }
 
-    public static Hotel findHotelById(Long id)throws Exception{
-        if (id == null)
-            throw new BadRequestException("This does  " + id + " not exist ");
-
-        for (Hotel hotel : getHotels()){
-            if (hotel != null && hotel.getId() == id){
-                return hotel;
-            }
-        }
-        throw new BadRequestException("Hotel with " + id + " no such found.");
-    }
-
-    private static boolean checkHotelById(Long id)throws Exception{
-        if (id == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (Hotel el : getHotels()) {
-            if (el != null && el.getId() == id){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static LinkedList<Hotel> getHotels()throws Exception{
+    public static LinkedList<Hotel> getHotels()throws Exception{
         LinkedList<Hotel> arrays = new LinkedList<>();
 
         int index = 0;
@@ -122,6 +98,18 @@ public class HotelDAO extends GeneralDAO {
             index++;
         }
         return arrays;
+    }
+
+    public static boolean checkById(Long id)throws Exception{
+        if (id == 0)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (Hotel hotel : getHotels()) {
+            if (hotel != null && hotel.getId() == id){
+                return false;
+            }
+        }
+        return true;
     }
 
     private static Hotel mapHotels(String string)throws Exception{
@@ -151,17 +139,5 @@ public class HotelDAO extends GeneralDAO {
         }
         return res;
     }
-
-    /*public static boolean checkIdHotel(long id)throws Exception{
-        if (id == 0 )
-            throw new BadRequestException("Invalid incoming data");
-
-        for (Hotel hotel : getHotels()){
-            if (hotel != null && hotel.getId() == id){
-                return true;
-            }
-        }
-        return false;
-    }*/
 }
 

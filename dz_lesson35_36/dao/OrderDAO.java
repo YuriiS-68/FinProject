@@ -25,14 +25,14 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0 || hotelId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        /*if(roomDAO.checkIdRoom(roomId))
+        if(!roomDAO.checkById(roomId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        if (userDAO.checkIdUser(userId))
+        if (!userDAO.checkById(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        if (hotelDAO.checkIdHotel(hotelId))
-            throw new BadRequestException("Hotel with id " + hotelId + " is not exist");*/
+        if (!hotelDAO.checkById(hotelId))
+            throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
         writerToFile(createOrder(roomId, userId));
     }
@@ -41,43 +41,62 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if(!checkId(roomId, userId))
-            throw new BadRequestException("Room with id " + roomId + " is not exist");
-
-        if (!checkId(roomId, userId))
+        if (!checkById(roomId, userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
+
+        if(!checkById(roomId, userId))
+            throw new BadRequestException("Room with id " + roomId + " is not exist");
 
         writerInFailBD(pathOrderDB, resultForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
+        if (roomId == 0 || userId == 0)
+            throw new BadRequestException("Invalid incoming data");
+
         Order order = new Order();
 
         assignmentId(order);
+
+        System.out.println(order.getId());
 
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
         Date dateStart = GeneralDAO.getFORMAT().parse(dateFrom);
         Date dateFinish = GeneralDAO.getFORMAT().parse(dateTo);
 
-        //order.setUser(userDAO.findUserById(userId));
-        //order.setRoom(roomDAO.findRoomById(roomId));
+        for (User user : userDAO.getUsers()){
+            if (user != null && user.getId() == userId){
+                order.setUser(user);
+                System.out.println(order.getUser().toString());
+            }
+        }
+
+        System.out.println(order.getUser().toString());
+
+        for (Room room : roomDAO.getRooms()){
+            if (room != null && room.getId() == roomId){
+                System.out.println(room.getId());
+                order.setRoom(room);
+            }
+        }
+
         order.setDateFrom(GeneralDAO.getFORMAT().parse(dateFrom));
         order.setDateTo(GeneralDAO.getFORMAT().parse(dateTo));
 
         long difference = dateStart.getTime() - dateFinish.getTime();
         int days = (int)(difference / (24 * 60 * 60 * 1000));
-        /*double orderCost = roomDAO.findRoomById(roomId).getPrice() * days;
-        if (orderCost < 0){
+        double orderCost = (order.getRoom().getPrice()) * days;
+        if (orderCost < 0) {
             orderCost = -1 * orderCost;
         }
 
-        order.setMoneyPaid(orderCost);*/
+        order.setMoneyPaid(orderCost);
 
         return order;
     }
 
-    private static boolean checkId(long idRoom, long idUser)throws Exception{
+    private static boolean checkById(long idRoom, long idUser)throws Exception{
         if (idRoom == 0 || idUser == 0)
             throw new BadRequestException("Invalid incoming data");
 
@@ -110,8 +129,18 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
         order.setId(Long.parseLong(fields[0]));
-        //order.setUser(userDAO.findUserById(Long.parseLong(fields[1])));
-        //order.setRoom(roomDAO.findRoomById(Long.parseLong(fields[2])));
+        for (User user : userDAO.getUsers()){
+            if (user != null && user.getId() == Long.parseLong(fields[1])){
+                order.setUser(user);
+            }
+        }
+
+        for (Room room : roomDAO.getRooms()){
+            if (room != null && room.getId() == Long.parseLong(fields[2])){
+                order.setRoom(room);
+            }
+        }
+
         order.setDateFrom(GeneralDAO.getFORMAT().parse(fields[3]));
         order.setDateTo(GeneralDAO.getFORMAT().parse(fields[4]));
         order.setMoneyPaid(Double.parseDouble(fields[5]));

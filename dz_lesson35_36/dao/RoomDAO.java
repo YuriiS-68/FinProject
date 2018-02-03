@@ -11,6 +11,7 @@ import java.util.*;
 public class RoomDAO extends GeneralDAO{
 
     private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+
     private static HotelDAO hotelDAO = new HotelDAO();
 
     public RoomDAO() {
@@ -21,7 +22,7 @@ public class RoomDAO extends GeneralDAO{
         if (room == null)
             throw new BadRequestException("This " + room + " is not exist");
 
-        if (!checkRoomById(room.getId()))
+        if (!checkById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
 
         writerToFile(room);
@@ -33,7 +34,7 @@ public class RoomDAO extends GeneralDAO{
         if (idRoom == null)
             throw new BadRequestException("This id " + idRoom + " is not exist.");
 
-        if (checkRoomById(idRoom))
+        if (checkById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
         writerInFailBD(pathRoomDB, resultForWriting(idRoom));
@@ -51,6 +52,31 @@ public class RoomDAO extends GeneralDAO{
             }
         }
         return foundRooms;
+    }
+
+    public static LinkedList<Room> getRooms()throws Exception{
+        LinkedList<Room> arrays = new LinkedList<>();
+
+        int index = 0;
+        for (String el : readFromFile()){
+            if (el != null){
+                arrays.add(mapRooms(readFromFile().get(index)));
+            }
+            index++;
+        }
+        return arrays;
+    }
+
+    public static boolean checkById(long id)throws Exception{
+        if (id == 0 )
+            throw new BadRequestException("Invalid incoming data");
+
+        for (Room room : getRooms()){
+            if (room != null && room.getId() == id){
+                return false;
+            }
+        }
+        return true;
     }
 
     private static boolean filterCheck(Room room, Filter filter)throws Exception{
@@ -78,31 +104,6 @@ public class RoomDAO extends GeneralDAO{
         return true;
     }
 
-    private static boolean checkRoomById(long id)throws Exception{
-        if (id == 0 )
-            throw new BadRequestException("Invalid incoming data");
-
-        for (Room room : getRooms()){
-            if (room != null && room.getId() == id){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static LinkedList<Room> getRooms()throws Exception{
-        LinkedList<Room> arrays = new LinkedList<>();
-
-        int index = 0;
-        for (String el : readFromFile()){
-            if (el != null){
-                arrays.add(mapRooms(readFromFile().get(index)));
-            }
-            index++;
-        }
-        return arrays;
-    }
-
     private static Room mapRooms(String string)throws Exception{
         if (string == null)
             throw new BadRequestException("String does not exist");
@@ -116,18 +117,21 @@ public class RoomDAO extends GeneralDAO{
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
-        room.setHotel(hotelDAO.findHotelById(Long.parseLong(fields[0])));
-
+        for (Hotel hotel : hotelDAO.getHotels()){
+            if (hotel.getId() == Long.parseLong(fields[0])){
+                room.setHotel(hotel);
+            }
+        }
         return room;
     }
 
     private static StringBuffer resultForWriting(Long idRoom)throws Exception{
         StringBuffer res = new StringBuffer();
 
-        for (Room el : getRooms()){
-            if (el != null && el.getId() != idRoom){
-                System.out.println(el.toString());
-                res.append(el.toString() + ("\n"));
+        for (Room room : getRooms()){
+            if (room.getId() != idRoom){
+                System.out.println(room.toString());
+                res.append(room.toString() + ("\n"));
             }
         }
         return res;
