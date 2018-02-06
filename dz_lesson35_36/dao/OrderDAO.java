@@ -37,10 +37,10 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if (!checkById(roomId, userId))
+        if (checkById(roomId, userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        if(!checkById(roomId, userId))
+        if(checkById(roomId, userId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
         overwritingToFile(pathOrderDB, contentForWriting(roomId, userId));
@@ -53,7 +53,6 @@ public class OrderDAO extends GeneralDAO{
         Order order = new Order();
 
         gettingId(order);
-        System.out.println(order.getId());
 
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
@@ -61,7 +60,6 @@ public class OrderDAO extends GeneralDAO{
         Date dateFinish = GeneralDAO.getFORMAT().parse(dateTo);
 
         order.setUserId(userId);
-        System.out.println(order.getId());
 
         order.setRoomId(roomId);
 
@@ -95,12 +93,12 @@ public class OrderDAO extends GeneralDAO{
         if (idRoom == 0 || idUser == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        for (Order el : getOrders()){
-            if (el != null && el.getRoom().getId() == idRoom || el != null && el.getUser().getId() == idUser){
-                return true;
+        for (Order order : getOrders()){
+            if (order != null && order.getRoom().getId() != idRoom || order != null && order.getUser().getId() != idUser){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private static LinkedList<Order> getOrders()throws Exception{
