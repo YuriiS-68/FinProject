@@ -10,7 +10,7 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+    public static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
 
     private static HotelDAO hotelDAO = new HotelDAO();
 
@@ -37,7 +37,7 @@ public class RoomDAO extends GeneralDAO{
         if (checkById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
-        writerInFailBD(pathRoomDB, resultForWriting(idRoom));
+        overwritingToFile(pathRoomDB, contentForWriting(idRoom));
     }
 
     public static Collection findRooms(Filter filter)throws Exception{
@@ -125,7 +125,7 @@ public class RoomDAO extends GeneralDAO{
         return room;
     }
 
-    private static StringBuffer resultForWriting(Long idRoom)throws Exception{
+    private static StringBuffer contentForWriting(Long idRoom)throws Exception{
         StringBuffer res = new StringBuffer();
 
         for (Room room : getRooms()){

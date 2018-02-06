@@ -27,7 +27,7 @@ public class UserDAO extends GeneralDAO {
         if (!checkValidLoginName(user.getUserName()))
             throw new BadRequestException("User with name " + user.getUserName() + " already exists");
 
-        assignmentId(user);
+        gettingId(user);
 
         writerToFile(user);
 

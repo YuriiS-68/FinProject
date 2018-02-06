@@ -47,7 +47,7 @@ public abstract class GeneralDAO {
         }
     }
 
-    static void writerInFailBD(String path, StringBuffer content)throws Exception{
+    static void overwritingToFile(String path, StringBuffer content)throws Exception{
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))){
             bufferedWriter.append(content);
         }catch (IOException e){
@@ -55,7 +55,7 @@ public abstract class GeneralDAO {
         }
     }
 
-    static <T extends IdEntity> void assignmentId(T t)throws Exception{
+    static <T extends IdEntity> void gettingId(T t)throws Exception{
         if (t == null)
             throw new BadRequestException("User does not exist");
 

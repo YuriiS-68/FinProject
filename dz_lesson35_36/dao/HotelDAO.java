@@ -40,7 +40,7 @@ public class HotelDAO extends GeneralDAO {
         if (checkById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
-        writerInFailBD(pathHotelDB, contentForWriting(idHotel));
+        overwritingToFile(pathHotelDB, contentForWriting(idHotel));
     }
 
     public static LinkedList<Hotel> findHotelByName(String name)throws Exception{

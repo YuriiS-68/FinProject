@@ -47,7 +47,7 @@ public class OrderDAO extends GeneralDAO{
         if(!checkById(roomId, userId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        writerInFailBD(pathOrderDB, resultForWriting(roomId, userId));
+        overwritingToFile(pathOrderDB, contentForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
@@ -56,8 +56,7 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
 
-        assignmentId(order);
-
+        gettingId(order);
         System.out.println(order.getId());
 
         String dateFrom = "23.11.2017";
@@ -65,35 +64,35 @@ public class OrderDAO extends GeneralDAO{
         Date dateStart = GeneralDAO.getFORMAT().parse(dateFrom);
         Date dateFinish = GeneralDAO.getFORMAT().parse(dateTo);
 
-        for (User user : userDAO.getUsers()){
-            if (user != null && user.getId() == userId){
-                order.setUser(user);
-                System.out.println(order.getUser().toString());
-            }
-        }
+        order.setUserId(userId);
+        System.out.println(order.getId());
 
-        System.out.println(order.getUser().toString());
-
-        for (Room room : roomDAO.getRooms()){
-            if (room != null && room.getId() == roomId){
-                System.out.println(room.getId());
-                order.setRoom(room);
-            }
-        }
+        order.setRoomId(roomId);
 
         order.setDateFrom(GeneralDAO.getFORMAT().parse(dateFrom));
         order.setDateTo(GeneralDAO.getFORMAT().parse(dateTo));
 
-        long difference = dateStart.getTime() - dateFinish.getTime();
-        int days = (int)(difference / (24 * 60 * 60 * 1000));
-        double orderCost = (order.getRoom().getPrice()) * days;
-        if (orderCost < 0) {
-            orderCost = -1 * orderCost;
-        }
-
-        order.setMoneyPaid(orderCost);
+        order.setMoneyPaid(orderCost(dateStart, dateFinish, roomId));
 
         return order;
+    }
+
+    private static double orderCost(Date dateStart, Date dateFinish, long roomId)throws Exception{
+        if (dateStart == null || dateFinish == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        long difference = dateStart.getTime() - dateFinish.getTime();
+        int days = (int)(difference / (24 * 60 * 60 * 1000));
+        double orderCost = 0;
+        for (Room room : roomDAO.getRooms()){
+            if (room.getId() == roomId){
+                orderCost = room.getPrice() * days;
+                if (orderCost < 0) {
+                    orderCost = -1 * orderCost;
+                }
+            }
+        }
+        return orderCost;
     }
 
     private static boolean checkById(long idRoom, long idUser)throws Exception{
@@ -148,7 +147,7 @@ public class OrderDAO extends GeneralDAO{
         return order;
     }
 
-    private static StringBuffer resultForWriting(long roomId, long userId)throws Exception{
+    private static StringBuffer contentForWriting(long roomId, long userId)throws Exception{
         StringBuffer res = new StringBuffer();
 
         int index = 0;
@@ -164,4 +163,16 @@ public class OrderDAO extends GeneralDAO{
         }
         return res;
     }
+
+    /*long difference = dateStart.getTime() - dateFinish.getTime();
+        int days = (int)(difference / (24 * 60 * 60 * 1000));
+        double orderCost = 0;
+        for (Room room : roomDAO.getRooms()){
+            if (room.getId() == roomId){
+                orderCost = room.getPrice() * days;
+                if (orderCost < 0) {
+                    orderCost = -1 * orderCost;
+                }
+            }
+        }*/
 }

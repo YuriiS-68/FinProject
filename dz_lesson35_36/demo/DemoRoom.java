@@ -34,7 +34,7 @@ public class DemoRoom {
                                                                                                      //format.parse(date)
         Filter filter = new Filter(0, 0, false, true, format.parse(date3), "Ukraine", "Harkiv");
 
-        roomDAO.addRoom(room3);
+        roomDAO.addRoom(room4);
         /*RoomDAO.addRoom(room2);
         RoomDAO.addRoom(room3);
         RoomDAO.addRoom(room4);
@@ -44,7 +44,7 @@ public class DemoRoom {
         //RoomDAO.addRoom(room6);
         //RoomDAO.addRoom(room7);
 
-        //roomDAO.deleteRoom(3003L);
+        //roomDAO.deleteRoom(1001L);
 
         //System.out.println("RoomsFinish - " + RoomDAO.findRooms(filter));
 

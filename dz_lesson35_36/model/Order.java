@@ -63,12 +63,20 @@ public class Order extends IdEntity{
         this.user = user;
     }
 
+    public void setUserId(long id) {
+        this.id = id;
+    }
+
     public Room getRoom() {
         return room;
     }
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public void setRoomId(long id) {
+        this.id = id;
     }
 
     public Date getDateFrom() {
