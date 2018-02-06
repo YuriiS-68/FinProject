@@ -12,8 +12,6 @@ public class RoomDAO extends GeneralDAO{
 
     public static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
 
-    private static HotelDAO hotelDAO = new HotelDAO();
-
     public RoomDAO() {
         setPathDB(pathRoomDB);
     }
@@ -117,7 +115,7 @@ public class RoomDAO extends GeneralDAO{
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
-        for (Hotel hotel : hotelDAO.getHotels()){
+        for (Hotel hotel : HotelDAO.getHotels()){
             if (hotel.getId() == Long.parseLong(fields[0])){
                 room.setHotel(hotel);
             }

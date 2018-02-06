@@ -10,10 +10,6 @@ public class OrderDAO extends GeneralDAO{
 
     private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
 
-    private static UserDAO userDAO = new UserDAO();
-    private static HotelDAO hotelDAO = new HotelDAO();
-    private static RoomDAO roomDAO = new RoomDAO();
-
     public OrderDAO() {
         setPathDB(pathOrderDB);
     }
@@ -25,13 +21,13 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0 || hotelId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if(!roomDAO.checkById(roomId))
+        if(!RoomDAO.checkById(roomId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        if (!userDAO.checkById(userId))
+        if (!UserDAO.checkById(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        if (!hotelDAO.checkById(hotelId))
+        if (!HotelDAO.checkById(hotelId))
             throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
         writerToFile(createOrder(roomId, userId));
@@ -84,7 +80,7 @@ public class OrderDAO extends GeneralDAO{
         long difference = dateStart.getTime() - dateFinish.getTime();
         int days = (int)(difference / (24 * 60 * 60 * 1000));
         double orderCost = 0;
-        for (Room room : roomDAO.getRooms()){
+        for (Room room : RoomDAO.getRooms()){
             if (room.getId() == roomId){
                 orderCost = room.getPrice() * days;
                 if (orderCost < 0) {
@@ -128,13 +124,13 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
         order.setId(Long.parseLong(fields[0]));
-        for (User user : userDAO.getUsers()){
+        for (User user : UserDAO.getUsers()){
             if (user != null && user.getId() == Long.parseLong(fields[1])){
                 order.setUser(user);
             }
         }
 
-        for (Room room : roomDAO.getRooms()){
+        for (Room room : RoomDAO.getRooms()){
             if (room != null && room.getId() == Long.parseLong(fields[2])){
                 order.setRoom(room);
             }
