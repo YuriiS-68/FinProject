@@ -12,6 +12,13 @@ public class Hotel extends IdEntity{
     public Hotel() {
     }
 
+    public Hotel(String country, String city, String street, String name) {
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.name = name;
+    }
+
     public Hotel(long id, String country, String city, String street, String name) {
         this.id = id;
         this.country = country;

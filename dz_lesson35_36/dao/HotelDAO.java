@@ -11,15 +11,19 @@ public class HotelDAO extends GeneralDAO {
 
     private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
 
-    public HotelDAO() {
+    /*public HotelDAO() {
         setPathDB(pathHotelDB);
-    }
+    }*/
+
+    static {setPathDB(pathHotelDB);}
 
     public static Hotel addHotel(Hotel hotel)throws Exception{
         //проверить по id есть ли такой отель в файле
         //если нет, добавить в файл
         if (hotel == null)
             throw new BadRequestException("This " + hotel + " is not exist");
+
+        gettingId(hotel);
 
         if (!checkById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");

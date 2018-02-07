@@ -19,6 +19,15 @@ public class Room extends IdEntity{
     public Room() {
     }
 
+    public Room(int numberOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, Hotel hotel) {
+        this.numberOfGuests = numberOfGuests;
+        this.price = price;
+        this.breakfastIncluded = breakfastIncluded;
+        this.petsAllowed = petsAllowed;
+        this.dateAvailableFrom = dateAvailableFrom;
+        this.hotel = hotel;
+    }
+
     public Room(long id, int numberOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, Hotel hotel) {
         this.id = id;
         this.numberOfGuests = numberOfGuests;

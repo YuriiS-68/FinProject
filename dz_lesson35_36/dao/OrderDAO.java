@@ -10,9 +10,11 @@ public class OrderDAO extends GeneralDAO{
 
     private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
 
-    public OrderDAO() {
+    /*public OrderDAO() {
         setPathDB(pathOrderDB);
-    }
+    }*/
+
+    static {setPathDB(pathOrderDB);}
 
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
         //проверить есть ли в файлах БД такие данные
@@ -21,10 +23,10 @@ public class OrderDAO extends GeneralDAO{
         if (roomId == 0 || userId == 0 || hotelId == 0)
             throw new BadRequestException("Invalid incoming data");
 
-        if(!RoomDAO.checkById(roomId))
+        if(RoomDAO.checkById(roomId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        if (!UserDAO.checkById(userId))
+        if (UserDAO.checkById(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
         if (!HotelDAO.checkById(hotelId))

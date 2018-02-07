@@ -19,19 +19,19 @@ public class DemoOrder {
         String date3 = "04.12.2017";
         String date4 = "22.12.2017";
 
-        Hotel hotel1 = new Hotel(111111, "Ukraine", "Kiev", "Hrehsatik", "Sputnik");
-        Hotel hotel2 = new Hotel(222222, "Ukraine", "Harkiv", "Sumskaya", "Meteor");
+        Hotel hotel1 = new Hotel("Ukraine", "Kiev", "Hrehsatik", "Sputnik");
+        Hotel hotel2 = new Hotel("Ukraine", "Harkiv", "Sumskaya", "Meteor");
 
-        Room room1 = new Room(1001, 3, 50.00, false, true, format.parse(date), hotel1);
-        Room room2 = new Room(2002, 5, 120.00, false, true, format.parse(date2), hotel1);
-        Room room3 = new Room(3003, 2, 30.00, false, true, format.parse(date), hotel2);
-        Room room4 = new Room(4004, 3, 50.00, false, true, format.parse(date3), hotel2);
+        Room room1 = new Room(3, 50.00, false, true, format.parse(date), hotel1);
+        Room room2 = new Room(5, 120.00, false, true, format.parse(date2), hotel1);
+        Room room3 = new Room(2, 30.00, false, true, format.parse(date), hotel2);
+        Room room4 = new Room(3, 50.00, false, true, format.parse(date3), hotel2);
 
-        Room room5 = new Room(5005, 5, 120.00, false, true, format.parse(date4), hotel1);
-        Room room6 = new Room(6006, 3, 40.00, true, true, new Date(), hotel2);
-        Room room7 = new Room(7007, 3, 40.00, false, true, new Date(), hotel2);
+        Room room5 = new Room(5, 120.00, false, true, format.parse(date4), hotel1);
+        Room room6 = new Room(3, 40.00, true, true, new Date(), hotel2);
+        Room room7 = new Room(3, 40.00, false, true, new Date(), hotel2);
 
-        orderDAO.bookRoom(1001, 600109633, 111111);
+        OrderDAO.bookRoom(1951140740, 600109633, 985864179);
         //OrderDAO.bookRoom(2002, 7312364, 111111);
         //OrderDAO.bookRoom(3003, 8392838, 222222);
         //OrderDAO.bookRoom(1001, 7364205, 111111);

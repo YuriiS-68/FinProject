@@ -10,15 +10,19 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    public static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
+    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
 
-    public RoomDAO() {
+    /*public RoomDAO() {
         setPathDB(pathRoomDB);
-    }
+    }*/
+
+    static {setPathDB(pathRoomDB);}
 
     public static Room addRoom(Room room)throws Exception{
         if (room == null)
             throw new BadRequestException("This " + room + " is not exist");
+
+        gettingId(room);
 
         if (!checkById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
@@ -106,6 +110,7 @@ public class RoomDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
+        System.out.println("Stroka vxod - " + string);
         String[] fields = string.split(",");
 
         Room room = new Room();
@@ -120,6 +125,7 @@ public class RoomDAO extends GeneralDAO{
                 room.setHotel(hotel);
             }
         }
+        setPathDB(pathRoomDB);
         return room;
     }
 
