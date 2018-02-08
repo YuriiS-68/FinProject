@@ -113,6 +113,8 @@ public class RoomDAO extends GeneralDAO{
         System.out.println("Stroka vxod - " + string);
         String[] fields = string.split(",");
 
+        Hotel hotel = new Hotel();
+
         Room room = new Room();
         room.setId(Long.parseLong(fields[0]));
         room.setNumberOfGuests(Integer.parseInt(fields[1]));
@@ -120,12 +122,13 @@ public class RoomDAO extends GeneralDAO{
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
-        for (Hotel hotel : HotelDAO.getHotels()){
-            if (hotel.getId() == Long.parseLong(fields[0])){
-                room.setHotel(hotel);
+        long idHotel = Long.parseLong(fields[6]);
+        for (Hotel el : HotelDAO.getHotels()){
+            if (el.getId() == idHotel){
+                hotel = el;
             }
         }
-        setPathDB(pathRoomDB);
+        room.setHotel(hotel);
         return room;
     }
 

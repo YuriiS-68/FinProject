@@ -15,7 +15,7 @@ public class DemoHotel {
         Hotel hotel5 = new Hotel("Ukraine", "Donetsk", "Lenina", "Meteor");
         Hotel hotel6 = new Hotel("Germany", "Berlin", "Ulrih Olafson", "Western");
 
-        //HotelDAO.addHotel(hotel6);
+        HotelDAO.addHotel(hotel1);
         /*HotelDAO.addHotel(hotel2);
         HotelDAO.addHotel(hotel3);
         HotelDAO.addHotel(hotel4);

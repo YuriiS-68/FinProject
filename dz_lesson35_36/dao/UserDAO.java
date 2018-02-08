@@ -92,7 +92,7 @@ public class UserDAO extends GeneralDAO {
         return user;
     }
 
-    //методы входа и выхода из системы оставляем на самый конец
+//методы входа и выхода из системы оставляем на самый конец
     /*public static void login(String userName, String password)throws Exception {
         if (userName == null || password == null)
             throw new BadRequestException("Username or password is not exists");

@@ -29,7 +29,7 @@ public class OrderDAO extends GeneralDAO{
         if (UserDAO.checkById(userId))
             throw new BadRequestException("User with id " + userId + " is not exist");
 
-        if (!HotelDAO.checkById(hotelId))
+        if (HotelDAO.checkById(hotelId))
             throw new BadRequestException("Hotel with id " + hotelId + " is not exist");
 
         writerToFile(createOrder(roomId, userId));
@@ -74,7 +74,7 @@ public class OrderDAO extends GeneralDAO{
     }
 
     private static double orderCost(Date dateStart, Date dateFinish, long roomId)throws Exception{
-        if (dateStart == null || dateFinish == null)
+        if (dateStart == null || dateFinish == null || roomId == 0)
             throw new BadRequestException("Invalid incoming data");
 
         long difference = dateStart.getTime() - dateFinish.getTime();
