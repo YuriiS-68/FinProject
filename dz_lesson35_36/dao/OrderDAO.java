@@ -10,10 +10,6 @@ public class OrderDAO extends GeneralDAO{
 
     private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
 
-    /*public OrderDAO() {
-        setPathDB(pathOrderDB);
-    }*/
-
     static {setPathDB(pathOrderDB);}
 
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
@@ -120,6 +116,7 @@ public class OrderDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
+        System.out.println(string);
         String[] fields = string.split(",");
 
         Order order = new Order();

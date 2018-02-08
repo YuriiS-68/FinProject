@@ -12,10 +12,6 @@ public class RoomDAO extends GeneralDAO{
 
     private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
 
-    /*public RoomDAO() {
-        setPathDB(pathRoomDB);
-    }*/
-
     static {setPathDB(pathRoomDB);}
 
     public static Room addRoom(Room room)throws Exception{
@@ -110,10 +106,8 @@ public class RoomDAO extends GeneralDAO{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
-        System.out.println("Stroka vxod - " + string);
+        System.out.println("Stroka vxod - " + string);   //вывожу в консоль, чтобы наглядно видеть какая строка подаётся
         String[] fields = string.split(",");
-
-        Hotel hotel = new Hotel();
 
         Room room = new Room();
         room.setId(Long.parseLong(fields[0]));
@@ -123,13 +117,13 @@ public class RoomDAO extends GeneralDAO{
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
         long idHotel = Long.parseLong(fields[6]);
-        for (Hotel el : HotelDAO.getHotels()){
-            if (el.getId() == idHotel){
-                hotel = el;
+        for (Hotel hotel : HotelDAO.getHotels()){
+            if (hotel.getId() == idHotel){
+                room.setHotel(hotel);
+                return room;
             }
         }
-        room.setHotel(hotel);
-        return room;
+        throw new BadRequestException("There is no hotel with " + idHotel + " in file HotelDB.");
     }
 
     private static StringBuffer contentForWriting(Long idRoom)throws Exception{

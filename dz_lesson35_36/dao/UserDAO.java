@@ -13,10 +13,6 @@ public class UserDAO extends GeneralDAO {
     //обработка данных - маппинг данных
     private static String pathUserDB = "C:\\Users\\Skorodielov\\Desktop\\UserDB.txt";
 
-    /*public UserDAO() {
-        setPathDB(pathUserDB);
-    }*/
-
     static {setPathDB(pathUserDB);}
 
     public static User registerUser(User user)throws Exception{

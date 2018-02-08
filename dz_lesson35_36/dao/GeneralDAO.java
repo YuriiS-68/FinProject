@@ -11,8 +11,8 @@ import java.util.Random;
 
 public abstract class GeneralDAO {
 
-    private static String pathDB;
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static String pathDB;
 
     static ArrayList<String> readFromFile()throws Exception{
         ArrayList<String> arrayList = new ArrayList<>();

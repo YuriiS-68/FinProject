@@ -11,10 +11,6 @@ public class HotelDAO extends GeneralDAO {
 
     private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
 
-    /*public HotelDAO() {
-        setPathDB(pathHotelDB);
-    }*/
-
     static {setPathDB(pathHotelDB);}
 
     public static Hotel addHotel(Hotel hotel)throws Exception{
