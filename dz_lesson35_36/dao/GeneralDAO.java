@@ -36,18 +36,18 @@ public abstract class GeneralDAO {
         return arrayList;
     }
 
-    public static <T> void writerToFile(T t)throws Exception{
+    static <T> void writerToFile(T t)throws Exception{
         if (t == null)
             throw new BadRequestException("Invalid incoming data");
 
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDB, true))){
-            bufferedWriter.append(t.toString() + ("\n"));
+            bufferedWriter.write(t.toString() + ("\n"));
         }catch (IOException e){
             throw new IOException("Can not write to file " + pathDB);
         }
     }
 
-    static void overwritingToFile(String path, StringBuffer content)throws Exception{
+    static void writerToFile(String path, StringBuffer content)throws Exception{
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))){
             bufferedWriter.append(content);
         }catch (IOException e){
@@ -55,7 +55,7 @@ public abstract class GeneralDAO {
         }
     }
 
-    static <T extends IdEntity> void gettingId(T t)throws Exception{
+    static <T extends IdEntity> void setId(T t)throws Exception{
         if (t == null)
             throw new BadRequestException("User does not exist");
 
@@ -66,11 +66,11 @@ public abstract class GeneralDAO {
         }
     }
 
-    public static void setPathDB(String pathDB) {
+    static void setPathDB(String pathDB) {
         GeneralDAO.pathDB = pathDB;
     }
 
-    public static DateFormat getFORMAT() {
+    static DateFormat getFORMAT() {
         return FORMAT;
     }
 

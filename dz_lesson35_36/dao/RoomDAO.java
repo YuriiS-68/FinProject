@@ -5,7 +5,6 @@ import dz_lesson35_36.model.Filter;
 import dz_lesson35_36.model.Hotel;
 import dz_lesson35_36.model.Room;
 
-import java.io.*;
 import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
@@ -16,11 +15,11 @@ public class RoomDAO extends GeneralDAO{
 
     public static Room addRoom(Room room)throws Exception{
         if (room == null)
-            throw new BadRequestException("This " + room + " is not exist");
+            throw new BadRequestException("Invalid incoming data");
 
-        gettingId(room);
+        setId(room);
 
-        if (!checkById(room.getId()))
+        if (checkById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
 
         writerToFile(room);
@@ -30,17 +29,17 @@ public class RoomDAO extends GeneralDAO{
 
     public static void deleteRoom(Long idRoom)throws Exception{
         if (idRoom == null)
-            throw new BadRequestException("This id " + idRoom + " is not exist.");
+            throw new BadRequestException("Invalid incoming data");
 
-        if (checkById(idRoom))
+        if (!checkById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
-        overwritingToFile(pathRoomDB, contentForWriting(idRoom));
+        writerToFile(pathRoomDB, contentForWriting(idRoom));
     }
 
     public static Collection findRooms(Filter filter)throws Exception{
         if (filter == null)
-            throw new BadRequestException("This filter - " + filter + " does not exist." );
+            throw new BadRequestException("Invalid incoming data");
 
         LinkedList<Room> foundRooms = new LinkedList<>();
 
@@ -55,12 +54,10 @@ public class RoomDAO extends GeneralDAO{
     public static LinkedList<Room> getRooms()throws Exception{
         LinkedList<Room> arrays = new LinkedList<>();
 
-        int index = 0;
-        for (String el : readFromFile()){
-            if (el != null){
-                arrays.add(mapRooms(readFromFile().get(index)));
+        for (String str : readFromFile()){
+            if (str != null){
+                arrays.add(mapRooms(str));
             }
-            index++;
         }
         return arrays;
     }
@@ -71,10 +68,10 @@ public class RoomDAO extends GeneralDAO{
 
         for (Room room : getRooms()){
             if (room != null && room.getId() == id){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static boolean filterCheck(Room room, Filter filter)throws Exception{
@@ -104,10 +101,12 @@ public class RoomDAO extends GeneralDAO{
 
     private static Room mapRooms(String string)throws Exception{
         if (string == null)
-            throw new BadRequestException("String does not exist");
+            throw new BadRequestException("Invalid incoming data");
 
-        System.out.println("Stroka vxod - " + string);   //вывожу в консоль, чтобы наглядно видеть какая строка подаётся
+        //System.out.println("Incoming string from file rooms - " + string);
         String[] fields = string.split(",");
+
+        //System.out.println("Element fields[0] - " + fields[0]);
 
         Room room = new Room();
         room.setId(Long.parseLong(fields[0]));
@@ -120,18 +119,22 @@ public class RoomDAO extends GeneralDAO{
         for (Hotel hotel : HotelDAO.getHotels()){
             if (hotel.getId() == idHotel){
                 room.setHotel(hotel);
-                return room;
+                //return room;
             }
         }
-        throw new BadRequestException("There is no hotel with " + idHotel + " in file HotelDB.");
+        return room;
+        //throw new BadRequestException("There is no hotel with " + idHotel + " in file HotelDB.");
     }
 
     private static StringBuffer contentForWriting(Long idRoom)throws Exception{
+        if (idRoom == null)
+            throw new BadRequestException("Invalid incoming data");
+
         StringBuffer res = new StringBuffer();
 
         for (Room room : getRooms()){
             if (room.getId() != idRoom){
-                System.out.println(room.toString());
+                //System.out.println(room.toString());
                 res.append(room.toString() + ("\n"));
             }
         }

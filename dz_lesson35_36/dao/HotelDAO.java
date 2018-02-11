@@ -17,11 +17,11 @@ public class HotelDAO extends GeneralDAO {
         //проверить по id есть ли такой отель в файле
         //если нет, добавить в файл
         if (hotel == null)
-            throw new BadRequestException("This " + hotel + " is not exist");
+            throw new BadRequestException("Invalid incoming data");
 
-        gettingId(hotel);
+        setId(hotel);
 
-        if (!checkById(hotel.getId()))
+        if (checkById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");
 
         writerToFile(hotel);
@@ -35,12 +35,12 @@ public class HotelDAO extends GeneralDAO {
         //если строка содержит заданный отель, удалить эту строку
         //перезаписать файл
         if (idHotel == null)
-            throw new BadRequestException("This id " + idHotel + " is not exist");
+            throw new BadRequestException("Invalid incoming data");
 
-        if (checkById(idHotel))
+        if (!checkById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
-        overwritingToFile(pathHotelDB, contentForWriting(idHotel));
+        writerToFile(pathHotelDB, contentForWriting(idHotel));
     }
 
     public static LinkedList<Hotel> findHotelByName(String name)throws Exception{
@@ -49,7 +49,7 @@ public class HotelDAO extends GeneralDAO {
         //полученную строку разбить сплитом по запятой
         //получаю массив стрингов
         if (name == null)
-            throw new BadRequestException("This name - " + name + " does not exist." );
+            throw new BadRequestException("Invalid incoming data");
 
         LinkedList<Hotel> hotels = new LinkedList<>();
 
@@ -71,7 +71,7 @@ public class HotelDAO extends GeneralDAO {
         //полученную строку разбить сплитом по запятой
         //получаю массив стрингов
         if (city == null)
-            throw new BadRequestException("This city - " + city + " does not exist." );
+            throw new BadRequestException("Invalid incoming data");
 
         LinkedList<Hotel> hotels = new LinkedList<>();
 
@@ -90,12 +90,10 @@ public class HotelDAO extends GeneralDAO {
     public static LinkedList<Hotel> getHotels()throws Exception{
         LinkedList<Hotel> arrays = new LinkedList<>();
 
-        int index = 0;
-        for (String el : readFromFile()){
-            if (el != null){
-                arrays.add(mapHotels(readFromFile().get(index)));
+        for (String str : readFromFile()){
+            if (str != null){
+                arrays.add(mapHotels(str));
             }
-            index++;
         }
         return arrays;
     }
@@ -106,19 +104,21 @@ public class HotelDAO extends GeneralDAO {
 
         for (Hotel hotel : getHotels()) {
             if (hotel != null && hotel.getId() == id){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static Hotel mapHotels(String string)throws Exception{
         if (string == null)
             throw new BadRequestException("String does not exist");
 
+        Hotel hotel = new Hotel();
+
+        //System.out.println("Incoming string from file hotels - " + string);
         String[] fields = string.split(",");
 
-        Hotel hotel = new Hotel();
         hotel.setId(Long.parseLong(fields[0]));
         hotel.setCountry(fields[1]);
         hotel.setCity(fields[2]);
@@ -129,12 +129,14 @@ public class HotelDAO extends GeneralDAO {
     }
 
     private static StringBuffer contentForWriting(Long idHotel)throws Exception{
+        if (idHotel == null)
+            throw new BadRequestException("Invalid incoming data");
+
         StringBuffer res = new StringBuffer();
 
         for (Hotel el : getHotels()){
             if (el != null && el.getId() != idHotel){
                 res.append(el.toString() + ("\n"));
-
             }
         }
         return res;

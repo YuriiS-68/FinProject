@@ -20,8 +20,8 @@ public class DemoRoom {
         String date3 = "04.12.2017";
         String date4 = "22.12.2017";
 
-        Hotel hotel1 = new Hotel(985864179, "Ukraine", "Kiev", "Hrehsatik", "Sputnik");
-        Hotel hotel2 = new Hotel(491911675, "Ukraine", "Harkiv", "Sumskaya", "Meteor");
+        Hotel hotel1 = new Hotel(278563860, "Ukraine", "Kiev", "Hrehsatik", "Sputnik");
+        Hotel hotel2 = new Hotel(1050413855, "Ukraine", "Harkiv", "Sumskaya", "Meteor");
 
         Room room1 = new Room(3, 50.00, false, true, format.parse(date), hotel1);
         Room room2 = new Room(5, 120.00, false, true, format.parse(date2), hotel1);
@@ -34,7 +34,7 @@ public class DemoRoom {
                                                                                                      //format.parse(date)
         Filter filter = new Filter(0, 0, false, true, format.parse(date3), "Ukraine", "Harkiv");
 
-        RoomDAO.addRoom(room3);
+        RoomDAO.addRoom(room1);
 
         //RoomDAO.addRoom(room3);
         //RoomDAO.addRoom(room6);

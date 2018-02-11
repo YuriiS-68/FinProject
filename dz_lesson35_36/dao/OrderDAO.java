@@ -3,7 +3,6 @@ package dz_lesson35_36.dao;
 import dz_lesson35_36.exception.BadRequestException;
 import dz_lesson35_36.model.*;
 
-import java.io.*;
 import java.util.*;
 
 public class OrderDAO extends GeneralDAO{
@@ -41,7 +40,7 @@ public class OrderDAO extends GeneralDAO{
         if(checkById(roomId, userId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        overwritingToFile(pathOrderDB, contentForWriting(roomId, userId));
+        writerToFile(pathOrderDB, contentForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
@@ -50,7 +49,7 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
 
-        gettingId(order);
+        setId(order);
 
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
@@ -156,16 +155,4 @@ public class OrderDAO extends GeneralDAO{
         }
         return res;
     }
-
-    /*long difference = dateStart.getTime() - dateFinish.getTime();
-        int days = (int)(difference / (24 * 60 * 60 * 1000));
-        double orderCost = 0;
-        for (Room room : roomDAO.getRooms()){
-            if (room.getId() == roomId){
-                orderCost = room.getPrice() * days;
-                if (orderCost < 0) {
-                    orderCost = -1 * orderCost;
-                }
-            }
-        }*/
 }
