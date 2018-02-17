@@ -19,8 +19,6 @@ public class HotelDAO extends GeneralDAO {
         if (hotel == null)
             throw new BadRequestException("Invalid incoming data");
 
-        setId(hotel);
-
         if (checkById(hotel.getId()))
             throw new BadRequestException("Hotel with id " + hotel.getId() + " already exists");
 
@@ -106,6 +104,9 @@ public class HotelDAO extends GeneralDAO {
             if (hotel != null && hotel.getId() == id){
                 return true;
             }
+
+            if (hotel == null)
+                throw new BadRequestException("Invalid incoming data");
         }
         return false;
     }
@@ -114,11 +115,15 @@ public class HotelDAO extends GeneralDAO {
         if (string == null)
             throw new BadRequestException("String does not exist");
 
-        Hotel hotel = new Hotel();
-
-        //System.out.println("Incoming string from file hotels - " + string);
         String[] fields = string.split(",");
 
+        if (fields.length != 5)
+            throw new BadRequestException("The length of the array does not match the specified");
+
+        if (!checkFields(fields))
+            throw new BadRequestException("Invalid incoming data. Field is null.");
+
+        Hotel hotel = new Hotel();
         hotel.setId(Long.parseLong(fields[0]));
         hotel.setCountry(fields[1]);
         hotel.setCity(fields[2]);
@@ -128,15 +133,27 @@ public class HotelDAO extends GeneralDAO {
         return hotel;
     }
 
-    private static StringBuffer contentForWriting(Long idHotel)throws Exception{
-        if (idHotel == null)
+    private static boolean checkFields(String[] fields)throws Exception{
+        if (fields == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (String field : fields){
+            if (field == null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static StringBuffer contentForWriting(long idHotel)throws Exception{
+        if (idHotel == 0)
             throw new BadRequestException("Invalid incoming data");
 
         StringBuffer res = new StringBuffer();
 
-        for (Hotel el : getHotels()){
-            if (el != null && el.getId() != idHotel){
-                res.append(el.toString() + ("\n"));
+        for (Hotel hotel : getHotels()){
+            if (hotel.getId() != idHotel){
+                res.append(hotel.toString() + ("\n"));
             }
         }
         return res;

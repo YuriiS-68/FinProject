@@ -49,7 +49,7 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
 
-        setId(order);
+        //setId(order);
 
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
@@ -140,6 +140,9 @@ public class OrderDAO extends GeneralDAO{
     }
 
     private static StringBuffer contentForWriting(long roomId, long userId)throws Exception{
+        if (roomId == 0 || userId == 0)
+            throw new BadRequestException("Invalid incoming data");
+
         StringBuffer res = new StringBuffer();
 
         int index = 0;

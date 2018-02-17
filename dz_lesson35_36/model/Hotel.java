@@ -1,9 +1,12 @@
 package dz_lesson35_36.model;
 
+import dz_lesson35_36.dao.GeneralDAO;
+
 import java.util.Objects;
 
-public class Hotel extends IdEntity{
+public class Hotel {
 
+    private long id;
     private String country;
     private String city;
     private String street;
@@ -13,19 +16,13 @@ public class Hotel extends IdEntity{
     }
 
     public Hotel(String country, String city, String street, String name) {
+        this.id = setId();
         this.country = country;
         this.city = city;
         this.street = street;
         this.name = name;
     }
 
-    public Hotel(long id, String country, String city, String street, String name) {
-        this.id = id;
-        this.country = country;
-        this.city = city;
-        this.street = street;
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -51,6 +48,10 @@ public class Hotel extends IdEntity{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long setId(){
+        return this.id = GeneralDAO.generateId();
     }
 
     public String getCountry() {

@@ -26,8 +26,6 @@ public class UserDAO extends GeneralDAO {
         if (checkValidLoginName(user.getUserName()))
             throw new BadRequestException("User with name " + user.getUserName() + " already exists");
 
-        setId(user);
-
         writerToFile(user);
 
         return user;
@@ -61,7 +59,7 @@ public class UserDAO extends GeneralDAO {
             throw new BadRequestException("Invalid incoming data");
 
         for (User user : getUsers()) {
-            if (user.getUserName().equals(loginName)){
+            if (user != null && user.getUserName().equals(loginName)){
                 return true;
             }
         }
@@ -74,6 +72,12 @@ public class UserDAO extends GeneralDAO {
 
         String[] fields = string.split(",");
 
+        if (fields.length != 5)
+            throw new BadRequestException("The length of the array does not match the specified");
+
+        if (!checkFields(fields))
+            throw new BadRequestException("Invalid incoming data. Field is null.");
+
         User user = new User();
         user.setId(Long.parseLong(fields[0]));
         user.setUserName(fields[1]);
@@ -85,6 +89,18 @@ public class UserDAO extends GeneralDAO {
             user.setUserType(UserType.ADMIN);
         }
         return user;
+    }
+
+    private static boolean checkFields(String[] fields)throws Exception{
+        if (fields == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (String field : fields){
+            if (field == null){
+                return false;
+            }
+        }
+        return true;
     }
 
 //методы входа и выхода из системы оставляем на самый конец

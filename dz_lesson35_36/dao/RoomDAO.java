@@ -17,8 +17,6 @@ public class RoomDAO extends GeneralDAO{
         if (room == null)
             throw new BadRequestException("Invalid incoming data");
 
-        setId(room);
-
         if (checkById(room.getId()))
             throw new BadRequestException("Room with id " + room.getId() + " in file RoomDB already exists.");
 
@@ -99,14 +97,18 @@ public class RoomDAO extends GeneralDAO{
         return true;
     }
 
-    private static Room mapRooms(String string)throws Exception{
+    public static Room mapRooms(String string)throws Exception{
         if (string == null)
             throw new BadRequestException("Invalid incoming data");
 
-        //System.out.println("Incoming string from file rooms - " + string);
+        System.out.println("Incoming string from file rooms - " + string); //смотрю входящую строку
+
         String[] fields = string.split(",");
 
-        //System.out.println("Element fields[0] - " + fields[0]);
+        System.out.println(Arrays.toString(fields));  //смотрю содержимое массива подстрок полученного из входящей строки
+
+        if (!checkFields(fields))                    //проверяю содержимое каждой ячейки массива на null
+            throw new BadRequestException("Invalid incoming data. Field is null.");
 
         Room room = new Room();
         room.setId(Long.parseLong(fields[0]));
@@ -115,19 +117,33 @@ public class RoomDAO extends GeneralDAO{
         room.setBreakfastIncluded(Boolean.parseBoolean(fields[3]));
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
+
+        Hotel hotel = new Hotel();
         long idHotel = Long.parseLong(fields[6]);
-        for (Hotel hotel : HotelDAO.getHotels()){
-            if (hotel.getId() == idHotel){
-                room.setHotel(hotel);
-                //return room;
+        for (Hotel el : HotelDAO.getHotels()){
+            if (checkById(idHotel)){
+                hotel = el;
             }
         }
+        room.setHotel(hotel);
         return room;
         //throw new BadRequestException("There is no hotel with " + idHotel + " in file HotelDB.");
     }
 
-    private static StringBuffer contentForWriting(Long idRoom)throws Exception{
-        if (idRoom == null)
+    private static boolean checkFields(String[] fields)throws Exception{
+        if (fields == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (String field : fields){
+            if (field == null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static StringBuffer contentForWriting(long idRoom)throws Exception{
+        if (idRoom == 0)
             throw new BadRequestException("Invalid incoming data");
 
         StringBuffer res = new StringBuffer();

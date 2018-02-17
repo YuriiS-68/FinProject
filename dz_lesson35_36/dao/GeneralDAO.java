@@ -55,7 +55,7 @@ public abstract class GeneralDAO {
         }
     }
 
-    static <T extends IdEntity> void setId(T t)throws Exception{
+    /*static <T extends IdEntity> void setId(T t)throws Exception{
         if (t == null)
             throw new BadRequestException("User does not exist");
 
@@ -64,6 +64,18 @@ public abstract class GeneralDAO {
         if (t.getId() < 0){
             t.setId(-1 * t.getId());
         }
+    }*/
+
+    public static long generateId(){
+        long id;
+
+        Random random = new Random();
+        id = random.nextInt();
+
+        if (id < 0){
+            id = -1 * id;
+        }
+        return id;
     }
 
     static void setPathDB(String pathDB) {
@@ -73,5 +85,4 @@ public abstract class GeneralDAO {
     static DateFormat getFORMAT() {
         return FORMAT;
     }
-
 }

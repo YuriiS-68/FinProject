@@ -1,14 +1,19 @@
 package dz_lesson35_36.model;
 
+import dz_lesson35_36.dao.GeneralDAO;
+import dz_lesson35_36.dao.HotelDAO;
+import dz_lesson35_36.exception.BadRequestException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Room extends IdEntity{
+public class Room {
 
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
+    private long id;
     private int numberOfGuests;
     private double price;
     private boolean breakfastIncluded;
@@ -20,16 +25,7 @@ public class Room extends IdEntity{
     }
 
     public Room(int numberOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, Hotel hotel) {
-        this.numberOfGuests = numberOfGuests;
-        this.price = price;
-        this.breakfastIncluded = breakfastIncluded;
-        this.petsAllowed = petsAllowed;
-        this.dateAvailableFrom = dateAvailableFrom;
-        this.hotel = hotel;
-    }
-
-    public Room(long id, int numberOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, Hotel hotel) {
-        this.id = id;
+        this.id = setId();
         this.numberOfGuests = numberOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;
@@ -63,6 +59,10 @@ public class Room extends IdEntity{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long setId(){
+        return this.id = GeneralDAO.generateId();
     }
 
     public int getNumberOfGuests() {
@@ -131,6 +131,7 @@ public class Room extends IdEntity{
     @Override
     public String toString() {
         String date = FORMAT.format(dateAvailableFrom);
+
         return id + ","
                 + numberOfGuests + ","
                 + price + ","

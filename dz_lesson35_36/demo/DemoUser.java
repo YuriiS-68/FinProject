@@ -18,7 +18,12 @@ public class DemoUser {
         User user7 = new User("Alex", "7777", "USA", UserType.ADMIN);
         User user8 = new User("Oleg", "8888", "Russia", UserType.USER);
 
-        UserDAO.registerUser(user2);
+        UserDAO.registerUser(user5);
+
+        //System.out.println(user1.toString());
+        //System.out.println(user1.getId());
+
+        //System.out.println(UserDAO.mapUsers("93676899,Glan,9999,USA,USER"));
 
     }
 }

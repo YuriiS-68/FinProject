@@ -4,7 +4,7 @@ public abstract class IdEntity {
 
     public long id;
 
-    public abstract void setId(long i);
+    public abstract void setId(long id);
 
     public abstract long getId();
 }
