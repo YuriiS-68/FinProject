@@ -8,13 +8,11 @@ import java.util.LinkedList;
 
 public class HotelController {
 
-    private static HotelService hotelService = new HotelService();
-
     public static Hotel addHotel(Hotel hotel)throws Exception{
         if (hotel == null)
             throw new BadRequestException("This " + hotel + " is not exist");
 
-        return hotelService.addHotel(hotel);
+        return HotelService.addHotel(hotel);
     }
 
     public static void deleteHotel(Long idHotel)throws Exception {
@@ -27,13 +25,13 @@ public class HotelController {
         if (name == null)
             throw new BadRequestException("This name - " + name + " does not exist." );
 
-        return hotelService.findHotelByName(name);
+        return HotelService.findHotelByName(name);
     }
 
     public static LinkedList<Hotel> findHotelByCity(String city)throws Exception{
         if (city == null)
             throw new BadRequestException("This city - " + city + " does not exist." );
 
-        return hotelService.findHotelByName(city);
+        return HotelService.findHotelByName(city);
     }
 }

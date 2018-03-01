@@ -9,13 +9,11 @@ import java.util.Collection;
 
 public class RoomController {
 
-    private static RoomService roomService = new RoomService();
-
     public static Room addRoom(Room room)throws Exception {
         if (room == null)
             throw new BadRequestException("This " + room + " is not exist");
 
-        return roomService.addRoom(room);
+        return RoomService.addRoom(room);
     }
 
     public static void deleteRoom(Long idRoom)throws Exception{
@@ -28,6 +26,6 @@ public class RoomController {
         if (filter == null)
             throw new BadRequestException("This filter - " + filter + " does not exist." );
 
-        return roomService.findRooms(filter);
+        return RoomService.findRooms(filter);
     }
 }

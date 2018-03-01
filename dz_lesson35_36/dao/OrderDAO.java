@@ -49,8 +49,6 @@ public class OrderDAO extends GeneralDAO{
 
         Order order = new Order();
 
-        //setId(order);
-
         String dateFrom = "23.11.2017";
         String dateTo = "06.12.2017";
         Date dateStart = GeneralDAO.getFORMAT().parse(dateFrom);

@@ -55,17 +55,6 @@ public abstract class GeneralDAO {
         }
     }
 
-    /*static <T extends IdEntity> void setId(T t)throws Exception{
-        if (t == null)
-            throw new BadRequestException("User does not exist");
-
-        Random random = new Random();
-        t.setId(random.nextInt());
-        if (t.getId() < 0){
-            t.setId(-1 * t.getId());
-        }
-    }*/
-
     public static long generateId(){
         long id;
 

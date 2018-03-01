@@ -8,13 +8,11 @@ import java.util.LinkedList;
 
 public class HotelService {
 
-    private static HotelDAO hotelDAO = new HotelDAO();
-
     public static Hotel addHotel(Hotel hotel)throws Exception{
         if (hotel == null)
             throw new BadRequestException("This " + hotel + " is not exist");
 
-        return hotelDAO.addHotel(hotel);
+        return HotelDAO.addHotel(hotel);
     }
 
     public static void deleteHotel(Long idHotel)throws Exception {
@@ -27,13 +25,13 @@ public class HotelService {
         if (name == null)
             throw new BadRequestException("This name - " + name + " does not exist." );
 
-        return hotelDAO.findHotelByName(name);
+        return HotelDAO.findHotelByName(name);
     }
 
     public static LinkedList<Hotel> findHotelByCity(String city)throws Exception{
         if (city == null)
             throw new BadRequestException("This city - " + city + " does not exist." );
 
-        return hotelDAO.findHotelByName(city);
+        return HotelDAO.findHotelByName(city);
     }
 }

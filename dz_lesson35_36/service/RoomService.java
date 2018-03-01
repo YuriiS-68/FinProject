@@ -11,13 +11,11 @@ import java.util.LinkedList;
 
 public class RoomService {
 
-    private static RoomDAO roomDAO = new RoomDAO();
-
     public static Room addRoom(Room room)throws Exception {
         if (room == null)
             throw new BadRequestException("This " + room + " is not exist");
 
-        return roomDAO.addRoom(room);
+        return RoomDAO.addRoom(room);
     }
 
     public static void deleteRoom(Long idRoom)throws Exception{
@@ -30,6 +28,6 @@ public class RoomService {
         if (filter == null)
             throw new BadRequestException("This filter - " + filter + " does not exist." );
 
-        return roomDAO.findRooms(filter);
+        return RoomDAO.findRooms(filter);
     }
 }

@@ -118,16 +118,13 @@ public class RoomDAO extends GeneralDAO{
         room.setPetsAllowed(Boolean.parseBoolean(fields[4]));
         room.setDateAvailableFrom(GeneralDAO.getFORMAT().parse(fields[5]));
 
-        Hotel hotel = new Hotel();
-        long idHotel = Long.parseLong(fields[6]);
-        for (Hotel el : HotelDAO.getHotels()){
-            if (checkById(idHotel)){
-                hotel = el;
+        for (Hotel hotel : HotelDAO.getHotels()){
+            if (hotel != null && hotel.getId() == Long.parseLong(fields[6])){
+                room.setHotel(hotel);
             }
         }
-        room.setHotel(hotel);
+
         return room;
-        //throw new BadRequestException("There is no hotel with " + idHotel + " in file HotelDB.");
     }
 
     private static boolean checkFields(String[] fields)throws Exception{
@@ -150,7 +147,6 @@ public class RoomDAO extends GeneralDAO{
 
         for (Room room : getRooms()){
             if (room.getId() != idRoom){
-                //System.out.println(room.toString());
                 res.append(room.toString() + ("\n"));
             }
         }

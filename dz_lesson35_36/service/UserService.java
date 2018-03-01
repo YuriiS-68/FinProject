@@ -6,15 +6,13 @@ import dz_lesson35_36.dao.UserDAO;
 
 public class UserService {
 
-    private static UserDAO userDAO = new UserDAO();
-
     public static User registerUser(User user)throws Exception{
         //check business logic
         if (user == null)
             throw new BadRequestException("This " + user + " is not exist");
 
         //if logic is ok
-        return userDAO.registerUser(user);
+        return UserDAO.registerUser(user);
 
     }
 }
