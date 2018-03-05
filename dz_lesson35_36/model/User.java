@@ -13,6 +13,14 @@ public class User {
     public User(){
     }
 
+    public User(long id, String userName, String password, String country, UserType userType) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.country = country;
+        this.userType = userType;
+    }
+
     public User(String userName, String password, String country, UserType userType) {
         this.id = setId();
         this.userName = userName;

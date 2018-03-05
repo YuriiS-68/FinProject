@@ -15,6 +15,14 @@ public class Hotel {
     public Hotel() {
     }
 
+    public Hotel(long id, String country, String city, String street, String name) {
+        this.id = id;
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.name = name;
+    }
+
     public Hotel(String country, String city, String street, String name) {
         this.id = setId();
         this.country = country;
@@ -50,7 +58,7 @@ public class Hotel {
         this.id = id;
     }
 
-    public long setId(){
+    private long setId(){
         return this.id = GeneralDAO.generateId();
     }
 

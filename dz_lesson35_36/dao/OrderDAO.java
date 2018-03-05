@@ -7,9 +7,7 @@ import java.util.*;
 
 public class OrderDAO extends GeneralDAO{
 
-    private static String pathOrderDB = "C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt";
-
-    static {setPathDB(pathOrderDB);}
+    static {setPathDB("C:\\Users\\Skorodielov\\Desktop\\OrderDB.txt");}
 
     public static void bookRoom(long roomId, long userId, long hotelId)throws Exception{
         //проверить есть ли в файлах БД такие данные
@@ -40,7 +38,7 @@ public class OrderDAO extends GeneralDAO{
         if(checkById(roomId, userId))
             throw new BadRequestException("Room with id " + roomId + " is not exist");
 
-        writerToFile(pathOrderDB, contentForWriting(roomId, userId));
+        writerToFile(contentForWriting(roomId, userId));
     }
 
     private static Order createOrder(long roomId, long userId)throws Exception{
@@ -137,15 +135,15 @@ public class OrderDAO extends GeneralDAO{
         return order;
     }
 
-    private static StringBuffer contentForWriting(long roomId, long userId)throws Exception{
-        if (roomId == 0 || userId == 0)
+    private static StringBuffer contentForWriting(long idRoom, long idUser)throws Exception{
+        if (idRoom == 0 || idUser == 0)
             throw new BadRequestException("Invalid incoming data");
 
         StringBuffer res = new StringBuffer();
 
         int index = 0;
         for (Order el : getOrders()){
-            if (el != null && el.getUser().getId() == userId && el.getRoom().getId() == roomId) {
+            if (el != null && el.getUser().getId() == idUser && el.getRoom().getId() == idRoom) {
                 el = null;
             }else {
                 if (el != null){

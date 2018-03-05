@@ -9,9 +9,7 @@ import java.util.LinkedList;
 
 public class HotelDAO extends GeneralDAO {
 
-    private static String pathHotelDB = "C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt";
-
-    static {setPathDB(pathHotelDB);}
+    static {setPathDB("C:\\Users\\Skorodielov\\Desktop\\HotelDB.txt");}
 
     public static Hotel addHotel(Hotel hotel)throws Exception{
         //проверить по id есть ли такой отель в файле
@@ -38,7 +36,7 @@ public class HotelDAO extends GeneralDAO {
         if (!checkById(idHotel))
             throw new BadRequestException("Hotel with id " + idHotel + " does not exist");
 
-        writerToFile(pathHotelDB, contentForWriting(idHotel));
+        writerToFile(contentForWriting(idHotel));
     }
 
     public static LinkedList<Hotel> findHotelByName(String name)throws Exception{
@@ -86,14 +84,14 @@ public class HotelDAO extends GeneralDAO {
     }
 
     public static LinkedList<Hotel> getHotels()throws Exception{
-        LinkedList<Hotel> arrays = new LinkedList<>();
+        LinkedList<Hotel> arrayHotels = new LinkedList<>();
 
         for (String str : readFromFile()){
             if (str != null){
-                arrays.add(mapHotels(str));
+                arrayHotels.add(mapHotels(str));
             }
         }
-        return arrays;
+        return arrayHotels;
     }
 
     public static boolean checkById(Long id)throws Exception{
@@ -120,7 +118,7 @@ public class HotelDAO extends GeneralDAO {
         if (fields.length != 5)
             throw new BadRequestException("The length of the array does not match the specified");
 
-        if (!checkFields(fields))
+        if (checkFields(fields))
             throw new BadRequestException("Invalid incoming data. Field is null.");
 
         Hotel hotel = new Hotel();
@@ -131,18 +129,6 @@ public class HotelDAO extends GeneralDAO {
         hotel.setName(fields[4]);
 
         return hotel;
-    }
-
-    private static boolean checkFields(String[] fields)throws Exception{
-        if (fields == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (String field : fields){
-            if (field == null){
-                return false;
-            }
-        }
-        return true;
     }
 
     private static StringBuffer contentForWriting(long idHotel)throws Exception{

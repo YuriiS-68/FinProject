@@ -32,14 +32,14 @@ public class UserDAO extends GeneralDAO {
     }
 
     public static LinkedList<User> getUsers()throws Exception{
-        LinkedList<User> arrays = new LinkedList<>();
+        LinkedList<User> arrayUsers = new LinkedList<>();
 
         for (String str : readFromFile()){
             if (str != null){
-                arrays.add(mapUsers(str));
+                arrayUsers.add(mapUsers(str));
             }
         }
-        return arrays;
+        return arrayUsers;
     }
 
     public static boolean checkById(Long id)throws Exception{
@@ -75,7 +75,7 @@ public class UserDAO extends GeneralDAO {
         if (fields.length != 5)
             throw new BadRequestException("The length of the array does not match the specified");
 
-        if (!checkFields(fields))
+        if (checkFields(fields))
             throw new BadRequestException("Invalid incoming data. Field is null.");
 
         User user = new User();
@@ -89,18 +89,6 @@ public class UserDAO extends GeneralDAO {
             user.setUserType(UserType.ADMIN);
         }
         return user;
-    }
-
-    private static boolean checkFields(String[] fields)throws Exception{
-        if (fields == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (String field : fields){
-            if (field == null){
-                return false;
-            }
-        }
-        return true;
     }
 
 //методы входа и выхода из системы оставляем на самый конец

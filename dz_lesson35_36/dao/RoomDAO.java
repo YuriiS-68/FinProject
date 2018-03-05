@@ -9,9 +9,7 @@ import java.util.*;
 
 public class RoomDAO extends GeneralDAO{
 
-    private static String pathRoomDB = "C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt";
-
-    static {setPathDB(pathRoomDB);}
+    static {setPathDB("C:\\Users\\Skorodielov\\Desktop\\RoomDB.txt");}
 
     public static Room addRoom(Room room)throws Exception{
         if (room == null)
@@ -32,7 +30,7 @@ public class RoomDAO extends GeneralDAO{
         if (!checkById(idRoom))
             throw new BadRequestException("Room with id " + idRoom + " in file RoomDB not found.");
 
-        writerToFile(pathRoomDB, contentForWriting(idRoom));
+        writerToFile(contentForWriting(idRoom));
     }
 
     public static Collection findRooms(Filter filter)throws Exception{
@@ -50,14 +48,14 @@ public class RoomDAO extends GeneralDAO{
     }
 
     public static LinkedList<Room> getRooms()throws Exception{
-        LinkedList<Room> arrays = new LinkedList<>();
+        LinkedList<Room> arrayRooms = new LinkedList<>();
 
         for (String str : readFromFile()){
             if (str != null){
-                arrays.add(mapRooms(str));
+                arrayRooms.add(mapRooms(str));
             }
         }
-        return arrays;
+        return arrayRooms;
     }
 
     public static boolean checkById(long id)throws Exception{
@@ -105,9 +103,12 @@ public class RoomDAO extends GeneralDAO{
 
         String[] fields = string.split(",");
 
-        System.out.println(Arrays.toString(fields));  //смотрю содержимое массива подстрок полученного из входящей строки
+        //System.out.println(Arrays.toString(fields));  //смотрю содержимое массива подстрок полученного из входящей строки
 
-        if (!checkFields(fields))                    //проверяю содержимое каждой ячейки массива на null
+        //if (fields.length != 7)
+        //    throw new BadRequestException("The length of the array does not match the specified");
+
+        if (checkFields(fields))                    //проверяю содержимое каждой ячейки массива на null
             throw new BadRequestException("Invalid incoming data. Field is null.");
 
         Room room = new Room();
@@ -124,19 +125,9 @@ public class RoomDAO extends GeneralDAO{
             }
         }
 
+        //System.out.println("Id hotel - " + room.getHotel().getId());
+        //System.out.println("Room - " + room.toString());
         return room;
-    }
-
-    private static boolean checkFields(String[] fields)throws Exception{
-        if (fields == null)
-            throw new BadRequestException("Invalid incoming data");
-
-        for (String field : fields){
-            if (field == null){
-                return false;
-            }
-        }
-        return true;
     }
 
     private static StringBuffer contentForWriting(long idRoom)throws Exception{

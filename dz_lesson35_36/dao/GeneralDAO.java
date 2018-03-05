@@ -47,12 +47,24 @@ public abstract class GeneralDAO {
         }
     }
 
-    static void writerToFile(String path, StringBuffer content)throws Exception{
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))){
+    static void writerToFile(StringBuffer content)throws Exception{
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDB))){
             bufferedWriter.append(content);
         }catch (IOException e){
-            throw new IOException("Can not write to file " + path);
+            throw new IOException("Can not write to file " + pathDB);
         }
+    }
+
+    static boolean checkFields(String[] fields)throws Exception{
+        if (fields == null)
+            throw new BadRequestException("Invalid incoming data");
+
+        for (String field : fields){
+            if (field != null){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static long generateId(){
